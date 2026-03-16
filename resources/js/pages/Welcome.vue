@@ -1,6 +1,35 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
-import { aboutme, contactus, myproject } from '@/routes';
+import { useToast } from '@/components/ui/toast';
+import {
+    portfolioPalettes,
+    useColorPalette,
+} from '@/composables/useColorPalette';
+import { aboutme, contactus } from '@/routes';
+
+const { colorPalette, updateColorPalette } = useColorPalette();
+const { toast } = useToast();
+
+const paletteSwatches = {
+    default: ['#FFFFFF', '#FFFFF0', '#D3D3D3', '#A9A9A9'],
+    mist: ['#191D23', '#57707A', '#C5BAC4', '#DEDCDC'],
+    mint: ['#80EE98', '#46DFB1', '#09D1C7', '#213A58'],
+    luna: ['#A7EBF2', '#54ACBF', '#26658C', '#011C40'],
+    skijan: ['#00010D', '#2D0140', '#660273', '#A305A6'],
+} as const;
+
+const selectPalette = (
+    value: (typeof portfolioPalettes)[number]['value'],
+    label: string,
+): void => {
+    updateColorPalette(value);
+
+    toast({
+        title: `${label} palette selected`,
+        description: 'The welcome page colors have been updated.',
+        variant: 'info',
+    });
+};
 </script>
 
 <template>
@@ -18,7 +47,7 @@ import { aboutme, contactus, myproject } from '@/routes';
             class="relative mx-auto flex min-h-screen max-w-6xl flex-col px-6 py-10 lg:px-10"
         >
             <header
-                class="portfolio-card-surface flex items-center justify-between rounded-full px-5 py-3"
+                class="portfolio-card-surface flex flex-col gap-4 rounded-[2rem] px-5 py-4 sm:flex-row sm:items-center sm:justify-between"
             >
                 <div>
                     <p class="ui-eyebrow">My Portfolio</p>
@@ -27,20 +56,44 @@ import { aboutme, contactus, myproject } from '@/routes';
                     </h1>
                 </div>
 
-                <nav class="flex items-center gap-3 text-sm font-medium">
-                    <Link :href="aboutme().url" class="portfolio-nav-link">
-                        About Me
-                    </Link>
-                    <Link
-                        :href="myproject().url"
-                        class="portfolio-button-primary rounded-full px-4 py-2 text-sm font-semibold"
-                    >
-                        My Projects
-                    </Link>
-                    <Link :href="contactus().url" class="portfolio-nav-link">
-                        Contact
-                    </Link>
-                </nav>
+                <div class="flex flex-wrap items-center gap-3">
+                    <p class="ui-label">Palette</p>
+                    <div class="flex flex-wrap items-center gap-2">
+                        <button
+                            v-for="palette in portfolioPalettes"
+                            :key="palette.value"
+                            type="button"
+                            class="flex h-11 w-11 items-center justify-center rounded-full border transition hover:scale-105"
+                            :class="
+                                colorPalette === palette.value
+                                    ? 'border-[rgb(var(--portfolio-accent-rgb)/0.55)] bg-[rgb(var(--portfolio-accent-rgb)/0.14)] shadow-lg'
+                                    : 'border-[rgb(var(--portfolio-accent-rgb)/0.18)] bg-[rgb(var(--portfolio-surface-strong-rgb)/0.24)]'
+                            "
+                            :style="
+                                colorPalette === palette.value
+                                    ? {
+                                          boxShadow:
+                                              '0 16px 28px -22px rgb(var(--portfolio-glow-bottom-rgb) / 0.85)',
+                                      }
+                                    : undefined
+                            "
+                            :aria-label="`Apply ${palette.label} color palette`"
+                            :title="palette.label"
+                            @click="selectPalette(palette.value, palette.label)"
+                        >
+                            <span class="grid grid-cols-2 gap-1">
+                                <span
+                                    v-for="swatch in paletteSwatches[
+                                        palette.value
+                                    ]"
+                                    :key="swatch"
+                                    class="size-2.5 rounded-full"
+                                    :style="{ backgroundColor: swatch }"
+                                />
+                            </span>
+                        </button>
+                    </div>
+                </div>
             </header>
 
             <main class="flex flex-1 items-center py-16">
@@ -71,12 +124,6 @@ import { aboutme, contactus, myproject } from '@/routes';
                                 class="portfolio-button-primary rounded-full px-6 py-3 text-sm font-semibold"
                             >
                                 Read About Me
-                            </Link>
-                            <Link
-                                :href="myproject().url"
-                                class="portfolio-button-secondary rounded-full px-6 py-3 text-sm font-semibold"
-                            >
-                                View My Projects
                             </Link>
                             <Link
                                 :href="contactus().url"
