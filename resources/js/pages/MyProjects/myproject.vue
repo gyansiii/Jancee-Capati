@@ -46,6 +46,7 @@ const projects = [
         :secondary-href="home().url"
         :interactive="false"
         profile-image="/images/profile.jpeg"
+        profile-hover-image="/images/profile-hover.gif"
     >
         <article
             id="portfolio-showcase"

@@ -5,6 +5,8 @@ import { Fragment, createApp, defineAsyncComponent, h } from 'vue';
 import '../css/app.css';
 import { initializeTheme } from '@/composables/useAppearance';
 import { initializeColorPalette } from '@/composables/useColorPalette';
+import GlobalLoader from '@/components/GlobalLoader.vue';
+import { installGlobalLoaderFetchHook } from '@/composables/useGlobalLoader';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 const pages = import.meta.glob<DefineComponent>('./pages/**/*.vue');
@@ -20,7 +22,12 @@ createInertiaApp({
     resolve,
     setup({ el, App, props, plugin }) {
         createApp({
-            render: () => h(Fragment, [h(App, props), h(Toaster)]),
+            render: () =>
+                h(Fragment, [
+                    h(App, props),
+                    h(GlobalLoader),
+                    h(Toaster),
+                ]),
         })
             .use(plugin)
             .mount(el);
@@ -33,3 +40,4 @@ createInertiaApp({
 // This will set light / dark mode on page load...
 initializeTheme();
 initializeColorPalette();
+installGlobalLoaderFetchHook();

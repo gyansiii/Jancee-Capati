@@ -1,5 +1,6 @@
 import type { Ref } from 'vue';
 import { ref } from 'vue';
+import { showGlobalLoaderFor } from '@/composables/useGlobalLoader';
 import type { PortfolioPalette } from '@/types/ui';
 
 export type UseColorPaletteReturn = {
@@ -71,6 +72,7 @@ export function initializeColorPalette(): void {
 export function useColorPalette(): UseColorPaletteReturn {
     const updateColorPalette = (value: PortfolioPalette): void => {
         colorPalette.value = value;
+        showGlobalLoaderFor(550);
 
         localStorage.setItem(storageKey, value);
         setCookie(storageKey, value);

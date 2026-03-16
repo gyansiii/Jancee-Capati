@@ -33,6 +33,7 @@ const contributionLegendColors = [
         secondary-label="Back Home"
         :secondary-href="home().url"
         profile-image="/images/profile.jpeg"
+        profile-hover-image="/images/profile-hover.gif"
     >
         <article
             id="personal-profile"
