@@ -126,7 +126,6 @@ const scrollToSection = (event: Event, href: string): void => {
                     v-for="item in navItems"
                     :key="item.label"
                     :href="item.href"
-                    prefetch
                     class="flex h-12 w-12 items-center justify-center rounded-full border"
                     :class="
                         isActive(item.match)
@@ -159,7 +158,6 @@ const scrollToSection = (event: Event, href: string): void => {
                                 v-for="item in navItems"
                                 :key="item.label"
                                 :href="item.href"
-                                prefetch
                                 class="flex h-12 w-12 items-center justify-center rounded-full border"
                                 :class="
                                     isActive(item.match)
@@ -249,11 +247,6 @@ const scrollToSection = (event: Event, href: string): void => {
                                     )
                                 "
                                 :href="primaryHref"
-                                :prefetch="
-                                    !isAnchorLink(primaryHref)
-                                        ? true
-                                        : undefined
-                                "
                                 @click="
                                     isAnchorLink(primaryHref)
                                         ? scrollToSection($event, primaryHref)
@@ -273,11 +266,6 @@ const scrollToSection = (event: Event, href: string): void => {
                                     )
                                 "
                                 :href="secondaryHref"
-                                :prefetch="
-                                    !isAnchorLink(secondaryHref)
-                                        ? true
-                                        : undefined
-                                "
                                 @click="
                                     isAnchorLink(secondaryHref)
                                         ? scrollToSection($event, secondaryHref)
