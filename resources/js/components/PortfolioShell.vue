@@ -9,6 +9,7 @@ import {
 } from 'lucide-vue-next';
 import { computed } from 'vue';
 import PortfolioPaletteSidebar from '@/components/PortfolioPaletteSidebar.vue';
+import ProfileMediaSwap from '@/components/ProfileMediaSwap.vue';
 import { Card, CardContent } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import {
@@ -39,6 +40,7 @@ const props = defineProps<{
     secondaryHref: string;
     interactive?: boolean;
     profileImage?: string;
+    profileHoverImage?: string;
 }>();
 
 const page = usePage();
@@ -184,20 +186,21 @@ const scrollToSection = (event: Event, href: string): void => {
                             <div
                                 class="portfolio-avatar-gradient absolute inset-0 rounded-full opacity-85"
                             />
-                            <div
+                            <ProfileMediaSwap
                                 v-if="profileImage"
-                                class="relative h-full w-full overflow-hidden rounded-full"
+                                :image-src="profileImage"
+                                :hover-src="
+                                    profileHoverImage ??
+                                    '/images/profile-hover.gif'
+                                "
+                                alt="Profile photo"
+                                container-class="relative h-full w-full"
+                                media-class="h-full w-full"
                                 :style="{
                                     backgroundColor:
                                         'rgb(var(--portfolio-surface-strong-rgb))',
                                 }"
-                            >
-                                <img
-                                    :src="profileImage"
-                                    alt="Profile photo"
-                                    class="h-full w-full object-cover"
-                                />
-                            </div>
+                            />
                             <div
                                 v-else
                                 class="portfolio-card-surface-strong portfolio-strong-text relative flex h-full w-full items-center justify-center rounded-full text-sm font-medium tracking-[0.5em] uppercase"
