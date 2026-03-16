@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ContactMessageController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -20,5 +21,9 @@ Route::get('/TechStack', function () {
 Route::get('/WorkExperience', function () {
     return Inertia::render('WorkExperience/workexperience');
 })->name('workexperience');
+Route::get('/ContactUs', function () {
+    return Inertia::render('ContactUs/contactus');
+})->name('contactus');
+Route::post('/contact-messages', ContactMessageController::class)->name('contact-messages.store');
 
 require __DIR__.'/settings.php';

@@ -14,7 +14,14 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import { aboutme, dashboard, myproject, techstack, workexperience } from '@/routes';
+import {
+    aboutme,
+    contactus,
+    dashboard,
+    myproject,
+    techstack,
+    workexperience,
+} from '@/routes';
 import type { NavItem } from '@/types';
 
 const mainNavItems: NavItem[] = [
@@ -41,6 +48,11 @@ const mainNavItems: NavItem[] = [
     {
         title: 'Work Experience',
         href: workexperience(),
+        icon: LayoutGrid,
+    },
+    {
+        title: 'Contact Us',
+        href: contactus(),
         icon: LayoutGrid,
     },
 ];
