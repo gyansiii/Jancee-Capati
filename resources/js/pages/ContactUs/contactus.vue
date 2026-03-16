@@ -1,9 +1,18 @@
 <script setup lang="ts">
-import { useForm, usePage } from '@inertiajs/vue3';
-import { computed, ref } from 'vue';
+import { useForm } from '@inertiajs/vue3';
+import { ref } from 'vue';
 import InputError from '@/components/InputError.vue';
 import PortfolioShell from '@/components/PortfolioShell.vue';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+} from '@/components/ui/card';
 import {
     Dialog,
     DialogContent,
@@ -11,9 +20,11 @@ import {
     DialogFooter,
     DialogHeader,
     DialogTitle,
+    DialogTrigger,
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { useToast } from '@/components/ui/toast';
 import { home } from '@/routes';
 import { store } from '@/routes/contact-messages';
 
@@ -57,16 +68,16 @@ const contactForm = useForm({
     message: '',
 });
 
-const page = usePage();
-
-const successMessage = computed(() => {
-    const flash = page.props.flash as { success?: string } | undefined;
-
-    return flash?.success ?? '';
-});
+const { toast } = useToast();
 
 const openSendMessageModal = (): void => {
     isSendMessageModalOpen.value = true;
+    toast({
+        title: 'Message dialog opened',
+        description:
+            'Share your email and a short note, and I will get back to you from there.',
+        variant: 'info',
+    });
 };
 
 const closeSendMessageModal = (): void => {
@@ -85,9 +96,22 @@ const handleModalOpenChange = (isOpen: boolean): void => {
 const submitContactForm = (): void => {
     contactForm.post(store().url, {
         preserveScroll: true,
+        onError: () => {
+            toast({
+                title: 'Message not sent',
+                description: 'Please fix the highlighted fields and try again.',
+                variant: 'destructive',
+            });
+        },
         onSuccess: () => {
             contactForm.reset();
             isSendMessageModalOpen.value = false;
+            toast({
+                title: 'Message sent',
+                description:
+                    'Thanks for reaching out. Your message is on its way to my inbox.',
+                variant: 'success',
+            });
         },
     });
 };
@@ -109,20 +133,20 @@ const submitContactForm = (): void => {
     >
         <article
             id="contact-us"
-            class="mx-auto mt-10 flex min-h-[calc(88svh-4rem)] w-full max-w-[96rem] scroll-mt-24 flex-col justify-center rounded-[1.75rem] border border-cyan-400/20 bg-slate-950/72 p-7 lg:col-span-2 xl:mt-16 xl:p-8"
+            class="portfolio-panel mx-auto mt-10 flex min-h-[calc(88svh-4rem)] w-full max-w-[96rem] scroll-mt-24 flex-col justify-center p-7 lg:col-span-2 xl:mt-16 xl:p-8"
         >
             <Dialog
                 :open="isSendMessageModalOpen"
                 @update:open="handleModalOpenChange"
             >
                 <DialogContent
-                    class="border border-cyan-400/20 bg-slate-950 text-white sm:max-w-lg"
+                    class="portfolio-card-surface-strong portfolio-strong-text sm:max-w-lg"
                 >
                     <DialogHeader>
-                        <DialogTitle class="text-xl text-white"
+                        <DialogTitle class="ui-section-title text-xl"
                             >Send a message</DialogTitle
                         >
-                        <DialogDescription class="text-slate-300">
+                        <DialogDescription class="ui-muted">
                             Enter your email and message below. When you send
                             it, the message will be delivered to my email.
                         </DialogDescription>
@@ -130,7 +154,9 @@ const submitContactForm = (): void => {
 
                     <form class="space-y-5" @submit.prevent="submitContactForm">
                         <div class="grid gap-2">
-                            <Label for="sender_email" class="text-slate-200"
+                            <Label
+                                for="sender_email"
+                                class="portfolio-strong-text"
                                 >Your Email</Label
                             >
                             <Input
@@ -139,7 +165,7 @@ const submitContactForm = (): void => {
                                 type="email"
                                 autocomplete="email"
                                 placeholder="you@example.com"
-                                class="border-slate-700 bg-slate-900 text-white placeholder:text-slate-500"
+                                class="portfolio-input-surface"
                             />
                             <InputError
                                 :message="contactForm.errors.sender_email"
@@ -147,7 +173,7 @@ const submitContactForm = (): void => {
                         </div>
 
                         <div class="grid gap-2">
-                            <Label for="message" class="text-slate-200"
+                            <Label for="message" class="portfolio-strong-text"
                                 >Message</Label
                             >
                             <textarea
@@ -155,7 +181,7 @@ const submitContactForm = (): void => {
                                 v-model="contactForm.message"
                                 rows="6"
                                 placeholder="Write your message here..."
-                                class="min-h-36 rounded-md border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white transition outline-none placeholder:text-slate-500 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/20"
+                                class="portfolio-input-surface min-h-36 rounded-md px-3 py-2 text-sm transition outline-none"
                             />
                             <InputError :message="contactForm.errors.message" />
                         </div>
@@ -164,14 +190,14 @@ const submitContactForm = (): void => {
                             <Button
                                 type="button"
                                 variant="outline"
-                                class="border-slate-700 bg-transparent text-slate-100 hover:bg-slate-900"
+                                class="portfolio-button-secondary"
                                 @click="closeSendMessageModal"
                             >
                                 Cancel
                             </Button>
                             <Button
                                 type="submit"
-                                class="bg-cyan-500 text-slate-950 hover:bg-cyan-400"
+                                class="portfolio-button-primary"
                                 :disabled="contactForm.processing"
                             >
                                 Send
@@ -181,121 +207,127 @@ const submitContactForm = (): void => {
                 </DialogContent>
             </Dialog>
 
-            <p
-                class="text-xs font-semibold tracking-[0.35em] text-cyan-300 uppercase"
-            >
-                Contact Us
-            </p>
-            <h2 class="mt-4 text-2xl font-semibold text-white xl:text-3xl">
-                Start a conversation with me
-            </h2>
-            <p class="mt-4 text-[15px] leading-7 text-slate-300 xl:text-base">
-                I am currently building my experience as a student developer and
-                junior full-stack web developer. If you have an opportunity,
-                project idea, or collaboration in mind, I would be happy to hear
-                from you.
-            </p>
-            <p class="mt-4 text-[15px] leading-7 text-slate-300 xl:text-base">
-                Whether you want to talk about frontend development, Laravel and
-                Vue projects, internship roles, or portfolio feedback, this page
-                gives you a few simple ways to reach me and learn what I am open
-                to.
-            </p>
-
-            <div
-                v-if="successMessage"
-                class="mt-6 rounded-2xl border border-emerald-400/25 bg-emerald-400/10 px-5 py-4 text-sm font-medium text-emerald-100"
-            >
-                {{ successMessage }}
+            <div class="portfolio-page-intro">
+                <p class="ui-eyebrow">Contact Us</p>
+                <h2 class="ui-section-title mt-4">
+                    Start a conversation with me
+                </h2>
+                <p class="ui-body mt-4">
+                    I am currently building my experience as a student developer
+                    and junior full-stack web developer. If you have an
+                    opportunity, project idea, or collaboration in mind, I would
+                    be happy to hear from you.
+                </p>
+                <p class="ui-body mt-4">
+                    Whether you want to talk about frontend development, Laravel
+                    and Vue projects, internship roles, or portfolio feedback,
+                    this page gives you a few simple ways to reach me and learn
+                    what I am open to.
+                </p>
             </div>
+
+            <Alert class="portfolio-callout mt-6">
+                <AlertTitle class="ui-label">Best way to connect</AlertTitle>
+                <AlertDescription class="ui-muted mt-3">
+                    Use the message dialog for project inquiries and
+                    opportunities, or browse my GitHub profile if you want to
+                    review the work behind this portfolio.
+                </AlertDescription>
+            </Alert>
 
             <div class="mt-8 grid gap-4 lg:grid-cols-[1.2fr_0.8fr]">
                 <div class="grid gap-4">
-                    <article
+                    <Card
                         v-for="card in contactCards"
                         :key="card.label"
-                        class="rounded-[1.5rem] border border-slate-800 bg-slate-900/72 p-5"
+                        class="portfolio-card-surface"
                     >
-                        <p
-                            class="text-xs font-semibold tracking-[0.25em] text-cyan-300 uppercase"
-                        >
-                            {{ card.label }}
-                        </p>
-                        <h3 class="mt-3 text-lg font-semibold text-white">
-                            {{ card.value }}
-                        </h3>
-                        <p class="mt-3 text-sm leading-6 text-slate-300">
-                            {{ card.detail }}
-                        </p>
-                        <button
-                            v-if="card.action && card.label === 'Email'"
-                            type="button"
-                            class="mt-4 inline-flex rounded-full border border-cyan-400/25 bg-cyan-400/10 px-4 py-2 text-sm font-semibold text-cyan-200 transition hover:border-cyan-300/60 hover:text-cyan-100"
-                            @click="openSendMessageModal"
-                        >
-                            {{ card.action }}
-                        </button>
-                        <a
-                            v-else-if="card.href && card.action"
-                            :href="card.href"
-                            :target="
-                                card.href.startsWith('http')
-                                    ? '_blank'
-                                    : undefined
-                            "
-                            :rel="
-                                card.href.startsWith('http')
-                                    ? 'noreferrer'
-                                    : undefined
-                            "
-                            class="mt-4 inline-flex rounded-full border border-cyan-400/25 bg-cyan-400/10 px-4 py-2 text-sm font-semibold text-cyan-200 transition hover:border-cyan-300/60 hover:text-cyan-100"
-                        >
-                            {{ card.action }}
-                        </a>
-                    </article>
+                        <CardHeader class="pb-2">
+                            <p class="ui-label">{{ card.label }}</p>
+                            <CardTitle class="ui-card-title mt-3">
+                                {{ card.value }}
+                            </CardTitle>
+                            <CardDescription class="ui-muted mt-3">
+                                {{ card.detail }}
+                            </CardDescription>
+                        </CardHeader>
+                        <CardFooter v-if="card.action">
+                            <DialogTrigger
+                                v-if="card.label === 'Email'"
+                                as-child
+                            >
+                                <Button
+                                    variant="outline"
+                                    class="portfolio-button-tonal"
+                                    @click="openSendMessageModal"
+                                >
+                                    {{ card.action }}
+                                </Button>
+                            </DialogTrigger>
+                            <Button
+                                v-else-if="card.href"
+                                as-child
+                                variant="outline"
+                                class="portfolio-button-tonal"
+                            >
+                                <a
+                                    :href="card.href"
+                                    :target="
+                                        card.href.startsWith('http')
+                                            ? '_blank'
+                                            : undefined
+                                    "
+                                    :rel="
+                                        card.href.startsWith('http')
+                                            ? 'noreferrer'
+                                            : undefined
+                                    "
+                                >
+                                    {{ card.action }}
+                                </a>
+                            </Button>
+                        </CardFooter>
+                    </Card>
                 </div>
 
                 <div class="space-y-4">
-                    <div
-                        class="rounded-[1.5rem] border border-slate-800 bg-slate-900/72 p-5"
-                    >
-                        <p
-                            class="text-xs font-semibold tracking-[0.25em] text-cyan-300 uppercase"
-                        >
-                            Availability
-                        </p>
-                        <h3 class="mt-3 text-lg font-semibold text-white">
-                            Ways I can help
-                        </h3>
-                        <ul class="mt-4 space-y-3">
-                            <li
-                                v-for="item in availability"
-                                :key="item"
-                                class="rounded-xl border border-slate-800 bg-slate-950/60 px-4 py-3 text-sm leading-6 text-slate-300"
+                    <Card class="portfolio-card-surface">
+                        <CardHeader class="pb-2">
+                            <p class="ui-label">Availability</p>
+                            <CardTitle class="ui-card-title mt-3"
+                                >Ways I can help</CardTitle
                             >
-                                {{ item }}
-                            </li>
-                        </ul>
-                    </div>
+                        </CardHeader>
+                        <CardContent>
+                            <ul class="mt-1 space-y-3">
+                                <li
+                                    v-for="item in availability"
+                                    :key="item"
+                                    class="ui-list-surface"
+                                >
+                                    {{ item }}
+                                </li>
+                            </ul>
+                        </CardContent>
+                    </Card>
 
-                    <div
-                        class="rounded-[1.5rem] border border-cyan-400/20 bg-[linear-gradient(135deg,rgba(14,165,233,0.18),rgba(34,211,238,0.08),rgba(15,23,42,0.92))] p-5"
-                    >
-                        <p
-                            class="text-xs font-semibold tracking-[0.25em] text-cyan-200 uppercase"
-                        >
-                            Response
-                        </p>
-                        <h3 class="mt-3 text-lg font-semibold text-white">
-                            Best way to reach me
-                        </h3>
-                        <p class="mt-3 text-sm leading-6 text-slate-200/90">
-                            Email is the best option if you want a direct reply
-                            about work opportunities, project discussions, or
-                            collaboration. You can also check my GitHub to see
-                            the kind of work I am actively building.
-                        </p>
-                    </div>
+                    <Card class="portfolio-callout-strong">
+                        <CardHeader class="pb-2">
+                            <p class="ui-label">Response</p>
+                            <CardTitle class="ui-card-title mt-3"
+                                >Best way to reach me</CardTitle
+                            >
+                        </CardHeader>
+                        <CardContent>
+                            <p class="ui-muted">
+                                Email is the best option if you want a direct
+                                reply about work opportunities, project
+                                discussions, or collaboration. You can also
+                                check my GitHub to see the kind of work I am
+                                actively building.
+                            </p>
+                        </CardContent>
+                    </Card>
                 </div>
             </div>
         </article>
