@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { cn } from '@/lib/utils';
 
 const props = withDefaults(
@@ -12,7 +12,6 @@ const props = withDefaults(
         mediaClass?: string;
     }>(),
     {
-        hoverSrc: '/images/profile-hover.gif',
         alt: 'Profile media',
         fallbackLabel: 'JMC',
         containerClass: '',
@@ -20,9 +19,19 @@ const props = withDefaults(
     },
 );
 
+const shouldRenderHoverMedia = ref(false);
+
 const hasHoverMedia = computed((): boolean => {
-    return Boolean(props.imageSrc && props.hoverSrc);
+    return Boolean(
+        props.imageSrc && props.hoverSrc && shouldRenderHoverMedia.value,
+    );
 });
+
+const prepareHoverMedia = (): void => {
+    if (props.hoverSrc) {
+        shouldRenderHoverMedia.value = true;
+    }
+};
 </script>
 
 <template>
@@ -33,15 +42,20 @@ const hasHoverMedia = computed((): boolean => {
                 containerClass,
             )
         "
+        @mouseenter="prepareHoverMedia"
+        @focusin="prepareHoverMedia"
     >
         <template v-if="imageSrc">
             <img
                 :src="imageSrc"
                 :alt="alt"
+                loading="eager"
+                decoding="async"
                 :class="
                     cn(
                         'h-full w-full object-cover transition-opacity duration-300',
-                        hasHoverMedia && 'group-hover:opacity-0',
+                        hasHoverMedia &&
+                            'motion-safe:group-focus-within:opacity-0 motion-safe:group-hover:opacity-0',
                         mediaClass,
                     )
                 "
@@ -50,9 +64,11 @@ const hasHoverMedia = computed((): boolean => {
                 v-if="hasHoverMedia"
                 :src="hoverSrc"
                 :alt="`${alt} animated preview`"
+                loading="lazy"
+                decoding="async"
                 :class="
                     cn(
-                        'pointer-events-none absolute inset-0 h-full w-full object-cover opacity-0 transition-opacity duration-300 group-hover:opacity-100',
+                        'pointer-events-none absolute inset-0 h-full w-full object-cover opacity-0 transition-opacity duration-300 motion-safe:group-focus-within:opacity-100 motion-safe:group-hover:opacity-100',
                         mediaClass,
                     )
                 "

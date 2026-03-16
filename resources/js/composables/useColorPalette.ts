@@ -1,5 +1,5 @@
 import type { Ref } from 'vue';
-import { onMounted, ref } from 'vue';
+import { ref } from 'vue';
 import type { PortfolioPalette } from '@/types/ui';
 
 export type UseColorPaletteReturn = {
@@ -17,6 +17,14 @@ export const portfolioPalettes: Array<{
     { label: 'Luna', value: 'luna' },
     { label: 'Skijan', value: 'skijan' },
 ];
+
+export const portfolioPaletteSwatches = {
+    default: ['#FFFFFF', '#FFFFF0', '#D3D3D3', '#A9A9A9'],
+    mist: ['#191D23', '#57707A', '#C5BAC4', '#DEDCDC'],
+    mint: ['#80EE98', '#46DFB1', '#09D1C7', '#213A58'],
+    luna: ['#A7EBF2', '#54ACBF', '#26658C', '#011C40'],
+    skijan: ['#00010D', '#2D0140', '#660273', '#A305A6'],
+} as const;
 
 const storageKey = 'portfolio-palette';
 const colorPalette = ref<PortfolioPalette>('default');
@@ -56,18 +64,11 @@ export function updateColorPaletteTheme(value: PortfolioPalette): void {
 
 export function initializeColorPalette(): void {
     const savedColorPalette = getStoredColorPalette();
+    colorPalette.value = savedColorPalette ?? 'default';
     updateColorPaletteTheme(savedColorPalette ?? 'default');
 }
 
 export function useColorPalette(): UseColorPaletteReturn {
-    onMounted(() => {
-        const savedColorPalette = getStoredColorPalette();
-
-        if (savedColorPalette) {
-            colorPalette.value = savedColorPalette;
-        }
-    });
-
     const updateColorPalette = (value: PortfolioPalette): void => {
         colorPalette.value = value;
 

@@ -7,7 +7,6 @@ import {
     Mail,
     UserRound,
 } from 'lucide-vue-next';
-import { computed } from 'vue';
 import PortfolioPaletteSidebar from '@/components/PortfolioPaletteSidebar.vue';
 import ProfileMediaSwap from '@/components/ProfileMediaSwap.vue';
 import { Card, CardContent } from '@/components/ui/card';
@@ -45,7 +44,7 @@ const props = defineProps<{
 
 const page = usePage();
 
-const navItems = computed<NavItem[]>(() => [
+const navItems: NavItem[] = [
     {
         label: 'About',
         href: aboutme().url,
@@ -76,7 +75,7 @@ const navItems = computed<NavItem[]>(() => [
         icon: Mail,
         match: '/ContactUs',
     },
-]);
+];
 
 const isActive = (match: string): boolean => {
     return page.url === match;
@@ -127,6 +126,7 @@ const scrollToSection = (event: Event, href: string): void => {
                     v-for="item in navItems"
                     :key="item.label"
                     :href="item.href"
+                    prefetch
                     class="flex h-12 w-12 items-center justify-center rounded-full border"
                     :class="
                         isActive(item.match)
@@ -159,6 +159,7 @@ const scrollToSection = (event: Event, href: string): void => {
                                 v-for="item in navItems"
                                 :key="item.label"
                                 :href="item.href"
+                                prefetch
                                 class="flex h-12 w-12 items-center justify-center rounded-full border"
                                 :class="
                                     isActive(item.match)
@@ -177,7 +178,7 @@ const scrollToSection = (event: Event, href: string): void => {
                         class="mx-auto flex w-full max-w-3xl flex-col items-center justify-center text-center"
                     >
                         <div
-                            class="relative mx-auto mb-5 h-36 w-36 rounded-full p-[3px] shadow-lg sm:h-40 sm:w-40"
+                            class="portfolio-animate-fade-up portfolio-animate-float relative mx-auto mb-5 h-36 w-36 rounded-full p-[3px] shadow-lg sm:h-40 sm:w-40"
                             :style="{
                                 boxShadow:
                                     '0 24px 40px -28px rgb(var(--portfolio-glow-bottom-rgb) / 0.72)',
@@ -189,10 +190,7 @@ const scrollToSection = (event: Event, href: string): void => {
                             <ProfileMediaSwap
                                 v-if="profileImage"
                                 :image-src="profileImage"
-                                :hover-src="
-                                    profileHoverImage ??
-                                    '/images/profile-hover.gif'
-                                "
+                                :hover-src="profileHoverImage"
                                 alt="Profile photo"
                                 container-class="relative h-full w-full"
                                 media-class="h-full w-full"
@@ -209,11 +207,15 @@ const scrollToSection = (event: Event, href: string): void => {
                             </div>
                         </div>
 
-                        <p class="ui-eyebrow mb-4 tracking-[0.45em] opacity-75">
+                        <p
+                            class="portfolio-animate-fade-up portfolio-animate-fade-up-delay-1 ui-eyebrow mb-4 tracking-[0.45em] opacity-75"
+                        >
                             {{ badge }}
                         </p>
 
-                        <h1 class="ui-hero-title">
+                        <h1
+                            class="portfolio-animate-fade-up portfolio-animate-fade-up-delay-1 ui-hero-title"
+                        >
                             {{ heading }}
                             <span
                                 class="text-[rgb(var(--portfolio-highlight-rgb))]"
@@ -221,16 +223,20 @@ const scrollToSection = (event: Event, href: string): void => {
                             >
                         </h1>
 
-                        <p class="portfolio-subtitle mt-3 text-xl sm:text-2xl">
+                        <p
+                            class="portfolio-animate-fade-up portfolio-animate-fade-up-delay-2 portfolio-subtitle mt-3 text-xl sm:text-2xl"
+                        >
                             {{ subtitle }}
                         </p>
 
-                        <p class="ui-body mt-6 max-w-3xl">
+                        <p
+                            class="portfolio-animate-fade-up portfolio-animate-fade-up-delay-2 ui-body mt-6 max-w-3xl"
+                        >
                             {{ description }}
                         </p>
 
                         <div
-                            class="mt-8 flex flex-wrap items-center justify-center gap-4"
+                            class="portfolio-animate-fade-up portfolio-animate-fade-up-delay-3 mt-8 flex flex-wrap items-center justify-center gap-4"
                         >
                             <component
                                 :is="isAnchorLink(primaryHref) ? 'a' : Link"
@@ -243,6 +249,11 @@ const scrollToSection = (event: Event, href: string): void => {
                                     )
                                 "
                                 :href="primaryHref"
+                                :prefetch="
+                                    !isAnchorLink(primaryHref)
+                                        ? true
+                                        : undefined
+                                "
                                 @click="
                                     isAnchorLink(primaryHref)
                                         ? scrollToSection($event, primaryHref)
@@ -262,6 +273,11 @@ const scrollToSection = (event: Event, href: string): void => {
                                     )
                                 "
                                 :href="secondaryHref"
+                                :prefetch="
+                                    !isAnchorLink(secondaryHref)
+                                        ? true
+                                        : undefined
+                                "
                                 @click="
                                     isAnchorLink(secondaryHref)
                                         ? scrollToSection($event, secondaryHref)

@@ -3,20 +3,13 @@ import { Card, CardContent } from '@/components/ui/card';
 import { useToast } from '@/components/ui/toast';
 import {
     portfolioPalettes,
+    portfolioPaletteSwatches,
     useColorPalette,
 } from '@/composables/useColorPalette';
 import { cn } from '@/lib/utils';
 
 const { colorPalette, updateColorPalette } = useColorPalette();
 const { toast } = useToast();
-
-const paletteSwatches = {
-    default: ['#FFFFFF', '#FFFFF0', '#D3D3D3', '#A9A9A9'],
-    mist: ['#191D23', '#57707A', '#C5BAC4', '#DEDCDC'],
-    mint: ['#80EE98', '#46DFB1', '#09D1C7', '#213A58'],
-    luna: ['#A7EBF2', '#54ACBF', '#26658C', '#011C40'],
-    skijan: ['#00010D', '#2D0140', '#660273', '#A305A6'],
-} as const;
 
 const selectPalette = (
     value: (typeof portfolioPalettes)[number]['value'],
@@ -65,7 +58,9 @@ const selectPalette = (
                 >
                     <span class="grid grid-cols-2 gap-1">
                         <span
-                            v-for="swatch in paletteSwatches[palette.value]"
+                            v-for="swatch in portfolioPaletteSwatches[
+                                palette.value
+                            ]"
                             :key="swatch"
                             class="size-2.5 rounded-full"
                             :style="{ backgroundColor: swatch }"

@@ -132,7 +132,7 @@ const submitContactForm = (): void => {
     >
         <article
             id="contact-us"
-            class="portfolio-panel mx-auto mt-10 flex min-h-[calc(88svh-4rem)] w-full max-w-[96rem] scroll-mt-24 flex-col justify-center p-7 lg:col-span-2 xl:mt-16 xl:p-8"
+            class="portfolio-animate-fade-up portfolio-animate-fade-up-delay-1 portfolio-panel mx-auto mt-10 flex min-h-[calc(88svh-4rem)] w-full max-w-[96rem] scroll-mt-24 flex-col justify-center p-7 lg:col-span-2 xl:mt-16 xl:p-8"
         >
             <Dialog
                 :open="isSendMessageModalOpen"
@@ -226,7 +226,9 @@ const submitContactForm = (): void => {
                 </p>
             </div>
 
-            <Alert class="portfolio-callout mt-6">
+            <Alert
+                class="portfolio-animate-fade-up portfolio-animate-fade-up-delay-2 portfolio-callout mt-6"
+            >
                 <AlertTitle class="ui-label">Best way to connect</AlertTitle>
                 <AlertDescription class="ui-muted mt-3">
                     Use the message dialog for project inquiries and
@@ -240,7 +242,7 @@ const submitContactForm = (): void => {
                     <Card
                         v-for="card in contactCards"
                         :key="card.label"
-                        class="portfolio-card-surface"
+                        class="portfolio-card-surface portfolio-animate-fade-up"
                     >
                         <CardHeader class="pb-2">
                             <p class="ui-label">{{ card.label }}</p>
@@ -287,7 +289,9 @@ const submitContactForm = (): void => {
                 </div>
 
                 <div class="space-y-4">
-                    <Card class="portfolio-card-surface">
+                    <Card
+                        class="portfolio-card-surface portfolio-animate-fade-up portfolio-animate-fade-up-delay-2"
+                    >
                         <CardHeader class="pb-2">
                             <p class="ui-label">Availability</p>
                             <CardTitle class="ui-card-title mt-3"
@@ -307,7 +311,9 @@ const submitContactForm = (): void => {
                         </CardContent>
                     </Card>
 
-                    <Card class="portfolio-callout-strong">
+                    <Card
+                        class="portfolio-animate-fade-up portfolio-animate-fade-up-delay-3 portfolio-callout-strong"
+                    >
                         <CardHeader class="pb-2">
                             <p class="ui-label">Response</p>
                             <CardTitle class="ui-card-title mt-3"

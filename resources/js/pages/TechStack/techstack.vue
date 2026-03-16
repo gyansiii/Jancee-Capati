@@ -245,6 +245,9 @@ const progressWidth = (mastery: string): string => {
                                     <img
                                         :src="item.logo"
                                         :alt="`${item.name} logo`"
+                                        loading="lazy"
+                                        decoding="async"
+                                        fetchpriority="low"
                                         class="h-full w-full object-contain"
                                     />
                                 </div>

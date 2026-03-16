@@ -136,7 +136,9 @@ const projects = [
                 </p>
             </div>
 
-            <Card class="portfolio-card-surface mt-7">
+            <Card
+                class="portfolio-card-surface portfolio-animate-fade-up portfolio-animate-fade-up-delay-2 mt-7"
+            >
                 <CardHeader class="pb-2">
                     <CardTitle class="ui-card-title"
                         >Full-Stack Web Developer Intern (OJT)</CardTitle
@@ -177,7 +179,7 @@ const projects = [
                 <Card
                     v-for="project in projects"
                     :key="project.title"
-                    class="portfolio-card-surface"
+                    class="portfolio-card-surface portfolio-animate-fade-up"
                 >
                     <CardHeader class="pb-2">
                         <CardTitle class="ui-card-title">{{
@@ -232,7 +234,9 @@ const projects = [
                 </Card>
             </div>
 
-            <Card class="portfolio-card-surface mt-8">
+            <Card
+                class="portfolio-card-surface portfolio-animate-fade-up portfolio-animate-fade-up-delay-3 mt-8"
+            >
                 <CardHeader class="pb-2">
                     <CardTitle class="ui-card-title">Summary</CardTitle>
                 </CardHeader>

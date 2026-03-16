@@ -9,7 +9,16 @@ export default defineConfig({
         laravel({
             input: ['resources/js/app.ts'],
             ssr: 'resources/js/ssr.ts',
-            refresh: true,
+            refresh: [
+                'app/**/*.php',
+                'bootstrap/**/*.php',
+                'config/**/*.php',
+                'resources/views/**/*.blade.php',
+                'resources/js/**/*.vue',
+                'resources/js/**/*.ts',
+                'resources/css/**/*.css',
+                'routes/**/*.php',
+            ],
         }),
         tailwindcss(),
         vue({
