@@ -35,6 +35,7 @@ const stackSections: StackSection[] = [
         items: [
             { name: 'PHP', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg', mastery: '4/5', accent: 'from-indigo-500 to-violet-500' },
             { name: 'Laravel', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/laravel/laravel-original.svg', mastery: '4/5', accent: 'from-red-500 to-orange-400' },
+            { name: 'Firebase', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain.svg', mastery: '3/5', accent: 'from-amber-400 to-orange-500' },
             { name: 'Postgres', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg', mastery: '3/5', accent: 'from-sky-600 to-blue-500' },
             { name: 'SQLite', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/sqlite/sqlite-original.svg', mastery: '4/5', accent: 'from-emerald-500 to-teal-500' },
         ],

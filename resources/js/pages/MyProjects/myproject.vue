@@ -5,7 +5,7 @@ import { home } from '@/routes';
 const projects = [
     {
         title: 'Plantcify',
-        stack: 'React, Ionic',
+        stack: 'React, TypeScript, Ionic, Firebase',
         description:
             'Plantcify is a web-based plant identification and disease detection application developed using React and Ionic. It allows users to scan plants, explore a library of medicinal plants, and view detailed information including scientific names, uses, symptoms of diseases, and treatment recommendations.',
     },
