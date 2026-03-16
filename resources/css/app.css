@@ -89,6 +89,29 @@
     }
 }
 
+@keyframes portfolio-fade-up {
+    from {
+        opacity: 0;
+        transform: translate3d(0, 22px, 0);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+@keyframes portfolio-soft-float {
+    0%,
+    100% {
+        transform: translate3d(0, 0, 0);
+    }
+
+    50% {
+        transform: translate3d(0, -8px, 0);
+    }
+}
+
 :root {
     --background: hsl(0 0% 100%);
     --foreground: hsl(0 0% 3.9%);
@@ -338,7 +361,7 @@
 
 @layer utilities {
     .portfolio-frame {
-        @apply rounded-[2rem] border shadow-xl backdrop-blur-xl;
+        @apply rounded-[2rem] border shadow-xl backdrop-blur-md;
         border-color: rgb(var(--portfolio-accent-rgb) / 0.2);
         background:
             linear-gradient(
@@ -348,12 +371,12 @@
             ),
             rgb(var(--portfolio-frame-rgb) / 0.82);
         box-shadow:
-            0 28px 80px -36px rgb(var(--portfolio-glow-bottom-rgb) / 0.32),
+            0 24px 60px -36px rgb(var(--portfolio-glow-bottom-rgb) / 0.28),
             inset 0 1px 0 rgb(var(--portfolio-accent-text-rgb) / 0.05);
     }
 
     .portfolio-panel {
-        @apply rounded-[1.75rem] border backdrop-blur-lg;
+        @apply rounded-[1.75rem] border backdrop-blur-sm;
         border-color: rgb(var(--portfolio-accent-rgb) / 0.2);
         background:
             linear-gradient(
@@ -363,16 +386,20 @@
             ),
             rgb(var(--portfolio-panel-rgb) / 0.72);
         box-shadow:
-            0 24px 60px -36px rgb(var(--portfolio-glow-bottom-rgb) / 0.28),
+            0 18px 42px -34px rgb(var(--portfolio-glow-bottom-rgb) / 0.24),
             inset 0 1px 0 rgb(var(--portfolio-accent-text-rgb) / 0.04);
+        content-visibility: auto;
+        contain-intrinsic-size: 1px 980px;
     }
 
     .portfolio-page-intro {
         @apply mx-auto flex w-full max-w-3xl flex-col items-center self-center text-center;
+        content-visibility: auto;
+        contain-intrinsic-size: 1px 320px;
     }
 
     .portfolio-card-surface {
-        @apply border backdrop-blur-md transition-[transform,border-color,background-color,box-shadow] duration-200;
+        @apply border backdrop-blur-sm transition-[transform,border-color,background-color,box-shadow] duration-200;
         border-color: rgb(var(--portfolio-accent-rgb) / 0.18);
         background:
             linear-gradient(
@@ -382,19 +409,23 @@
             ),
             rgb(var(--portfolio-surface-rgb) / 0.42);
         box-shadow:
-            0 18px 40px -34px rgb(var(--portfolio-glow-bottom-rgb) / 0.5),
+            0 14px 30px -28px rgb(var(--portfolio-glow-bottom-rgb) / 0.42),
             inset 0 1px 0 rgb(var(--portfolio-accent-text-rgb) / 0.05);
+        will-change: transform;
+        content-visibility: auto;
+        contain-intrinsic-size: 1px 240px;
     }
 
     .portfolio-card-surface:hover {
         border-color: rgb(var(--portfolio-accent-rgb) / 0.28);
+        transform: translate3d(0, -4px, 0);
         box-shadow:
-            0 24px 44px -34px rgb(var(--portfolio-glow-bottom-rgb) / 0.6),
+            0 22px 36px -28px rgb(var(--portfolio-glow-bottom-rgb) / 0.52),
             inset 0 1px 0 rgb(var(--portfolio-accent-text-rgb) / 0.06);
     }
 
     .portfolio-card-surface-strong {
-        @apply border backdrop-blur-md;
+        @apply border backdrop-blur-sm;
         border-color: rgb(var(--portfolio-accent-rgb) / 0.18);
         background:
             linear-gradient(
@@ -404,12 +435,14 @@
             ),
             rgb(var(--portfolio-surface-strong-rgb) / 0.62);
         box-shadow:
-            0 20px 50px -36px rgb(var(--portfolio-glow-bottom-rgb) / 0.52),
+            0 18px 36px -28px rgb(var(--portfolio-glow-bottom-rgb) / 0.46),
             inset 0 1px 0 rgb(var(--portfolio-accent-text-rgb) / 0.05);
+        content-visibility: auto;
+        contain-intrinsic-size: 1px 240px;
     }
 
     .portfolio-nav-shell {
-        @apply rounded-[2rem] border shadow-lg backdrop-blur-xl;
+        @apply rounded-[2rem] border shadow-lg backdrop-blur-md;
         border-color: rgb(var(--portfolio-rail-border-rgb) / 0.28);
         background:
             linear-gradient(
@@ -419,7 +452,7 @@
             ),
             rgb(var(--portfolio-rail-rgb) / 0.96);
         box-shadow:
-            0 20px 44px -26px rgb(var(--portfolio-glow-bottom-rgb) / 0.48),
+            0 18px 32px -24px rgb(var(--portfolio-glow-bottom-rgb) / 0.4),
             inset 0 1px 0 rgb(var(--portfolio-accent-text-rgb) / 0.04);
     }
 
@@ -451,7 +484,7 @@
     }
 
     .portfolio-button-primary {
-        @apply shadow-md transition-all duration-200;
+        @apply shadow-md transition-[transform,box-shadow,filter] duration-200;
         color: rgb(var(--portfolio-button-primary-text-rgb));
         background-image: linear-gradient(
             90deg,
@@ -459,14 +492,16 @@
             rgb(var(--portfolio-accent-rgb))
         );
         box-shadow:
-            0 18px 34px -20px rgb(var(--portfolio-glow-bottom-rgb) / 0.62),
+            0 16px 28px -18px rgb(var(--portfolio-glow-bottom-rgb) / 0.56),
             inset 0 1px 0 rgb(255 255 255 / 0.14);
+        will-change: transform;
     }
 
     .portfolio-button-primary:hover {
         filter: brightness(1.06);
+        transform: translate3d(0, -2px, 0);
         box-shadow:
-            0 24px 36px -20px rgb(var(--portfolio-glow-bottom-rgb) / 0.68),
+            0 20px 30px -18px rgb(var(--portfolio-glow-bottom-rgb) / 0.6),
             inset 0 1px 0 rgb(255 255 255 / 0.16);
     }
 
@@ -486,16 +521,20 @@
     }
 
     .portfolio-button-secondary {
-        @apply border bg-transparent shadow-sm transition-all duration-200;
+        @apply border bg-transparent shadow-sm transition-[transform,border-color,background-color,box-shadow] duration-200;
         border-color: rgb(var(--portfolio-accent-rgb) / 0.26);
         background-color: rgb(var(--portfolio-surface-rgb) / 0.74);
         color: rgb(var(--portfolio-button-secondary-text-rgb));
+        will-change: transform;
     }
 
     .portfolio-button-secondary:hover {
         border-color: rgb(var(--portfolio-accent-rgb) / 0.7);
         background-color: rgb(var(--portfolio-accent-rgb) / 0.14);
         color: rgb(var(--portfolio-button-secondary-text-rgb));
+        transform: translate3d(0, -2px, 0);
+        box-shadow: 0 16px 24px -20px
+            rgb(var(--portfolio-glow-bottom-rgb) / 0.44);
     }
 
     .portfolio-button-secondary:active {
@@ -507,16 +546,20 @@
     }
 
     .portfolio-button-tonal {
-        @apply rounded-full border shadow-sm transition-all duration-200;
+        @apply rounded-full border shadow-sm transition-[transform,border-color,background-color,box-shadow] duration-200;
         border-color: rgb(var(--portfolio-accent-rgb) / 0.25);
         background-color: rgb(var(--portfolio-accent-rgb) / 0.12);
         color: rgb(var(--portfolio-accent-text-rgb));
+        will-change: transform;
     }
 
     .portfolio-button-tonal:hover {
         border-color: rgb(var(--portfolio-accent-rgb) / 0.6);
         background-color: rgb(var(--portfolio-accent-rgb) / 0.18);
         color: rgb(var(--portfolio-accent-text-rgb));
+        transform: translate3d(0, -2px, 0);
+        box-shadow: 0 16px 24px -20px
+            rgb(var(--portfolio-glow-bottom-rgb) / 0.4);
     }
 
     .portfolio-pill {
@@ -527,7 +570,7 @@
     }
 
     .portfolio-nav-link {
-        @apply rounded-full px-4 py-2 text-sm font-semibold transition-all duration-200;
+        @apply rounded-full px-4 py-2 text-sm font-semibold transition-colors duration-200;
         color: rgb(var(--portfolio-button-secondary-text-rgb));
     }
 
@@ -585,7 +628,7 @@
     }
 
     .portfolio-callout {
-        @apply border shadow-sm backdrop-blur-md;
+        @apply border shadow-sm backdrop-blur-sm;
         border-color: rgb(var(--portfolio-accent-rgb) / 0.34);
         background:
             linear-gradient(
@@ -601,7 +644,7 @@
     }
 
     .portfolio-callout-strong {
-        @apply border shadow-md backdrop-blur-lg;
+        @apply border shadow-md backdrop-blur-sm;
         border-color: rgb(var(--portfolio-accent-rgb) / 0.4);
         background:
             linear-gradient(
@@ -650,6 +693,7 @@
         border-color: rgb(var(--portfolio-accent-rgb) / 0.3);
         background-color: rgb(var(--portfolio-accent-rgb) / 0.08);
         color: rgb(var(--portfolio-nav-active-text-rgb));
+        transform: translate3d(0, -2px, 0);
     }
 
     .ui-eyebrow {
@@ -699,5 +743,53 @@
         border-color: rgb(var(--portfolio-accent-rgb) / 0.25);
         background-color: rgb(var(--portfolio-accent-rgb) / 0.12);
         color: rgb(var(--portfolio-accent-text-rgb));
+    }
+
+    .portfolio-animate-fade-up {
+        animation: portfolio-fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+        will-change: transform, opacity;
+    }
+
+    .portfolio-animate-fade-up-delay-1 {
+        animation-delay: 120ms;
+    }
+
+    .portfolio-animate-fade-up-delay-2 {
+        animation-delay: 220ms;
+    }
+
+    .portfolio-animate-fade-up-delay-3 {
+        animation-delay: 320ms;
+    }
+
+    .portfolio-animate-float {
+        animation: portfolio-soft-float 10s ease-in-out 1;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .portfolio-animate-fade-up,
+    .portfolio-animate-fade-up-delay-1,
+    .portfolio-animate-fade-up-delay-2,
+    .portfolio-animate-fade-up-delay-3,
+    .portfolio-animate-float {
+        animation: none;
+    }
+
+    .portfolio-card-surface,
+    .portfolio-button-primary,
+    .portfolio-button-secondary,
+    .portfolio-button-tonal,
+    .portfolio-nav-item-idle {
+        transition-duration: 0ms;
+        will-change: auto;
+    }
+
+    .portfolio-card-surface:hover,
+    .portfolio-button-primary:hover,
+    .portfolio-button-secondary:hover,
+    .portfolio-button-tonal:hover,
+    .portfolio-nav-item-idle:hover {
+        transform: none;
     }
 }

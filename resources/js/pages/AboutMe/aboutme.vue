@@ -10,6 +10,14 @@ import {
     CardTitle,
 } from '@/components/ui/card';
 import { home } from '@/routes';
+
+const contributionLegendColors = [
+    'bg-[#ebedf0]',
+    'bg-[#9be9a8]',
+    'bg-[#40c463]',
+    'bg-[#30a14e]',
+    'bg-[#216e39]',
+];
 </script>
 
 <template>
@@ -28,7 +36,7 @@ import { home } from '@/routes';
     >
         <article
             id="personal-profile"
-            class="portfolio-panel mx-auto mt-10 flex min-h-[calc(88svh-4rem)] w-full max-w-[88rem] scroll-mt-24 flex-col justify-center p-7 lg:col-span-2 xl:mt-16 xl:p-8"
+            class="portfolio-animate-fade-up portfolio-animate-fade-up-delay-1 portfolio-panel mx-auto mt-10 flex min-h-[calc(88svh-4rem)] w-full max-w-[88rem] scroll-mt-24 flex-col justify-center p-7 lg:col-span-2 xl:mt-16 xl:p-8"
         >
             <div class="portfolio-page-intro">
                 <p class="ui-eyebrow">Personal Profile</p>
@@ -72,7 +80,7 @@ import { home } from '@/routes';
             </div>
 
             <div class="mt-7 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-                <Card class="portfolio-card-surface">
+                <Card class="portfolio-card-surface portfolio-animate-fade-up">
                     <CardHeader class="pb-0">
                         <CardTitle class="ui-card-title"
                             >Vue + TypeScript</CardTitle
@@ -85,7 +93,7 @@ import { home } from '@/routes';
                         </p>
                     </CardContent>
                 </Card>
-                <Card class="portfolio-card-surface">
+                <Card class="portfolio-card-surface portfolio-animate-fade-up">
                     <CardHeader class="pb-0">
                         <CardTitle class="ui-card-title">PHP/Laravel</CardTitle>
                     </CardHeader>
@@ -97,7 +105,7 @@ import { home } from '@/routes';
                         </p>
                     </CardContent>
                 </Card>
-                <Card class="portfolio-card-surface">
+                <Card class="portfolio-card-surface portfolio-animate-fade-up">
                     <CardHeader class="pb-0">
                         <CardTitle class="ui-card-title"
                             >UI Frameworks</CardTitle
@@ -110,7 +118,7 @@ import { home } from '@/routes';
                         </p>
                     </CardContent>
                 </Card>
-                <Card class="portfolio-card-surface">
+                <Card class="portfolio-card-surface portfolio-animate-fade-up">
                     <CardHeader class="pb-0">
                         <CardTitle class="ui-card-title"
                             >Continuous Learning</CardTitle
@@ -126,7 +134,9 @@ import { home } from '@/routes';
                 </Card>
             </div>
 
-            <Card class="portfolio-card-surface mt-10">
+            <Card
+                class="portfolio-card-surface portfolio-animate-fade-up portfolio-animate-fade-up-delay-2 mt-10"
+            >
                 <CardHeader
                     class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between"
                 >
@@ -155,8 +165,30 @@ import { home } from '@/routes';
                         <img
                             src="https://ghchart.rshah.org/gyansiii"
                             alt="GitHub contribution chart for gyansiii"
+                            loading="lazy"
+                            decoding="async"
+                            fetchpriority="low"
                             class="w-full rounded-xl"
                         />
+
+                        <div
+                            class="mt-4 flex items-center justify-end gap-2 px-1"
+                        >
+                            <span
+                                class="text-sm font-medium text-[rgb(var(--portfolio-accent-text-rgb)/0.72)]"
+                                >Less</span
+                            >
+                            <span
+                                v-for="colorClass in contributionLegendColors"
+                                :key="colorClass"
+                                :class="colorClass"
+                                class="h-5 w-5 rounded-md border border-black/5 shadow-sm"
+                            />
+                            <span
+                                class="text-sm font-medium text-[rgb(var(--portfolio-accent-text-rgb)/0.72)]"
+                                >More</span
+                            >
+                        </div>
                     </div>
                 </CardContent>
                 <CardFooter>

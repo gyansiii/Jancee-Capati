@@ -49,7 +49,7 @@ const projects = [
     >
         <article
             id="portfolio-showcase"
-            class="portfolio-panel mx-auto mt-10 flex min-h-[calc(88svh-4rem)] w-full max-w-[96rem] scroll-mt-24 flex-col justify-center p-7 lg:col-span-2 xl:mt-16 xl:p-8"
+            class="portfolio-animate-fade-up portfolio-animate-fade-up-delay-1 portfolio-panel mx-auto mt-10 flex min-h-[calc(88svh-4rem)] w-full max-w-[96rem] scroll-mt-24 flex-col justify-center p-7 lg:col-span-2 xl:mt-16 xl:p-8"
         >
             <div class="portfolio-page-intro">
                 <p class="ui-eyebrow">Portfolio Showcase</p>
@@ -86,7 +86,7 @@ const projects = [
                 <Card
                     v-for="project in projects"
                     :key="project.title"
-                    class="portfolio-card-surface"
+                    class="portfolio-card-surface portfolio-animate-fade-up"
                 >
                     <CardHeader class="pb-2">
                         <CardTitle class="ui-card-title">{{
@@ -105,7 +105,9 @@ const projects = [
             </div>
 
             <div class="mt-7 grid gap-4 md:grid-cols-2">
-                <Card class="portfolio-card-surface">
+                <Card
+                    class="portfolio-card-surface portfolio-animate-fade-up portfolio-animate-fade-up-delay-2"
+                >
                     <CardHeader class="pb-2">
                         <CardTitle class="ui-card-title"
                             >What these projects show</CardTitle
@@ -126,7 +128,9 @@ const projects = [
                         </p>
                     </CardContent>
                 </Card>
-                <Card class="portfolio-card-surface">
+                <Card
+                    class="portfolio-card-surface portfolio-animate-fade-up portfolio-animate-fade-up-delay-3"
+                >
                     <CardHeader class="pb-2">
                         <CardTitle class="ui-card-title"
                             >What I want to improve next</CardTitle
@@ -149,7 +153,9 @@ const projects = [
                 </Card>
             </div>
 
-            <Alert class="portfolio-callout-strong mt-8">
+            <Alert
+                class="portfolio-animate-fade-up portfolio-animate-fade-up-delay-3 portfolio-callout-strong mt-8"
+            >
                 <AlertTitle class="ui-label">Notice</AlertTitle>
                 <AlertDescription class="ui-body mt-3 leading-7">
                     All projects shown in this portfolio are either personal or

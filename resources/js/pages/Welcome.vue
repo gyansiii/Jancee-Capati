@@ -4,20 +4,13 @@ import ProfileMediaSwap from '@/components/ProfileMediaSwap.vue';
 import { useToast } from '@/components/ui/toast';
 import {
     portfolioPalettes,
+    portfolioPaletteSwatches,
     useColorPalette,
 } from '@/composables/useColorPalette';
 import { aboutme, contactus } from '@/routes';
 
 const { colorPalette, updateColorPalette } = useColorPalette();
 const { toast } = useToast();
-
-const paletteSwatches = {
-    default: ['#FFFFFF', '#FFFFF0', '#D3D3D3', '#A9A9A9'],
-    mist: ['#191D23', '#57707A', '#C5BAC4', '#DEDCDC'],
-    mint: ['#80EE98', '#46DFB1', '#09D1C7', '#213A58'],
-    luna: ['#A7EBF2', '#54ACBF', '#26658C', '#011C40'],
-    skijan: ['#00010D', '#2D0140', '#660273', '#A305A6'],
-} as const;
 
 const selectPalette = (
     value: (typeof portfolioPalettes)[number]['value'],
@@ -48,7 +41,7 @@ const selectPalette = (
             class="relative mx-auto flex min-h-screen max-w-6xl flex-col px-6 py-10 lg:px-10"
         >
             <header
-                class="portfolio-card-surface flex flex-col gap-4 rounded-[2rem] px-5 py-4 sm:flex-row sm:items-center sm:justify-between"
+                class="portfolio-card-surface portfolio-animate-fade-up flex flex-col gap-4 rounded-[2rem] px-5 py-4 sm:flex-row sm:items-center sm:justify-between"
             >
                 <div class="flex items-center gap-4">
                     <div
@@ -59,8 +52,7 @@ const selectPalette = (
                         }"
                     >
                         <ProfileMediaSwap
-                            image-src="/images/profile-hover.gif"
-                            hover-src="/images/profile.jpeg"
+                            image-src="/images/profile.jpeg"
                             alt="Jancee Capati profile photo"
                             container-class="h-full w-full"
                             media-class="h-full w-full rounded-full"
@@ -104,7 +96,7 @@ const selectPalette = (
                         >
                             <span class="grid grid-cols-2 gap-1">
                                 <span
-                                    v-for="swatch in paletteSwatches[
+                                    v-for="swatch in portfolioPaletteSwatches[
                                         palette.value
                                     ]"
                                     :key="swatch"
@@ -121,7 +113,9 @@ const selectPalette = (
                 <div
                     class="grid w-full gap-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-center"
                 >
-                    <section class="space-y-6">
+                    <section
+                        class="portfolio-animate-fade-up portfolio-animate-fade-up-delay-1 space-y-6"
+                    >
                         <p
                             class="portfolio-pill inline-flex px-4 py-1 text-sm font-semibold"
                         >
@@ -142,12 +136,14 @@ const selectPalette = (
                         <div class="flex flex-wrap gap-4">
                             <Link
                                 :href="aboutme().url"
+                                prefetch
                                 class="portfolio-button-primary rounded-full px-6 py-3 text-sm font-semibold"
                             >
                                 Read About Me
                             </Link>
                             <Link
                                 :href="contactus().url"
+                                prefetch
                                 class="portfolio-button-tonal px-6 py-3 text-sm font-semibold"
                             >
                                 Contact Me
@@ -155,7 +151,9 @@ const selectPalette = (
                         </div>
                     </section>
 
-                    <section class="grid gap-4">
+                    <section
+                        class="portfolio-animate-fade-up portfolio-animate-fade-up-delay-2 grid gap-4"
+                    >
                         <div class="portfolio-card-surface rounded-[2rem] p-6">
                             <p class="ui-label">Learning by building</p>
                             <p class="ui-body mt-3">
