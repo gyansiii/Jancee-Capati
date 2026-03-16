@@ -14,7 +14,7 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import { aboutme, dashboard } from '@/routes';
+import { aboutme, dashboard, myproject } from '@/routes';
 import type { NavItem } from '@/types';
 
 const mainNavItems: NavItem[] = [
@@ -26,6 +26,11 @@ const mainNavItems: NavItem[] = [
     {
         title: 'About Me',
         href: aboutme(),
+        icon: LayoutGrid,
+    },
+    {
+        title: 'My Projects',
+        href: myproject(),
         icon: LayoutGrid,
     },
 ];

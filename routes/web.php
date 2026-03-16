@@ -13,5 +13,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 Route::get('/Aboutme', function () {
     return Inertia::render('AboutMe/aboutme');
 })->name('aboutme');
+Route::get('/MyProjects', function () {
+    return Inertia::render('MyProjects/myproject');
+})->name('myproject');
 
 require __DIR__.'/settings.php';
