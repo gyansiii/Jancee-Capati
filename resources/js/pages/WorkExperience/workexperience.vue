@@ -108,9 +108,9 @@ const projects = [
     >
         <article
             id="work-experience"
-            class="portfolio-panel mx-auto mt-10 flex min-h-[calc(88svh-4rem)] w-full max-w-[88rem] scroll-mt-24 flex-col justify-center p-7 lg:col-span-2 xl:mt-16 xl:p-8"
+            class="portfolio-panel mt-10 flex w-full max-w-[88rem] scroll-mt-24 flex-col justify-start p-7 lg:col-span-2 xl:mt-16 xl:p-8"
         >
-            <div class="portfolio-page-intro">
+            <div class="flex w-full flex-col items-start self-start text-left">
                 <p class="ui-eyebrow">Work Experience</p>
                 <h2 class="ui-section-title mt-4">
                     Internship and project experience
