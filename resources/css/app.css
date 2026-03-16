@@ -536,6 +536,28 @@
         color: rgb(var(--portfolio-nav-active-text-rgb));
     }
 
+    .portfolio-dialog-overlay {
+        background:
+            radial-gradient(
+                circle at top,
+                rgb(var(--portfolio-glow-top-rgb) / 0.12),
+                transparent 28%
+            ),
+            rgb(var(--portfolio-app-rgb) / 0.68);
+        backdrop-filter: blur(10px);
+    }
+
+    .portfolio-dialog-close {
+        border: 1px solid rgb(var(--portfolio-accent-rgb) / 0.18);
+        background-color: rgb(var(--portfolio-surface-rgb) / 0.36);
+        color: rgb(var(--portfolio-accent-text-rgb) / 0.86);
+    }
+
+    .portfolio-dialog-close:hover {
+        background-color: rgb(var(--portfolio-accent-rgb) / 0.14);
+        color: rgb(var(--portfolio-accent-text-rgb));
+    }
+
     .portfolio-input-surface {
         @apply shadow-sm transition-[border-color,background-color,box-shadow] duration-200;
         border-color: rgb(var(--portfolio-accent-rgb) / 0.22);

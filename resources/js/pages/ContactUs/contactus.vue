@@ -20,7 +20,6 @@ import {
     DialogFooter,
     DialogHeader,
     DialogTitle,
-    DialogTrigger,
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -140,6 +139,7 @@ const submitContactForm = (): void => {
                 @update:open="handleModalOpenChange"
             >
                 <DialogContent
+                    v-if="isSendMessageModalOpen"
                     class="portfolio-card-surface-strong portfolio-strong-text sm:max-w-lg"
                 >
                     <DialogHeader>
@@ -252,18 +252,14 @@ const submitContactForm = (): void => {
                             </CardDescription>
                         </CardHeader>
                         <CardFooter v-if="card.action">
-                            <DialogTrigger
+                            <Button
                                 v-if="card.label === 'Email'"
-                                as-child
+                                variant="outline"
+                                class="portfolio-button-tonal"
+                                @click="openSendMessageModal"
                             >
-                                <Button
-                                    variant="outline"
-                                    class="portfolio-button-tonal"
-                                    @click="openSendMessageModal"
-                                >
-                                    {{ card.action }}
-                                </Button>
-                            </DialogTrigger>
+                                {{ card.action }}
+                            </Button>
                             <Button
                                 v-else-if="card.href"
                                 as-child
