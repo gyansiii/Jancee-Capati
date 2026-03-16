@@ -36,4 +36,22 @@ class ExampleTest extends TestCase
             ->assertOk()
             ->assertInertia(fn (Assert $page) => $page->component('MyProjects/myproject'));
     }
+
+    public function test_tech_stack_page_is_accessible(): void
+    {
+        $response = $this->get(route('techstack'));
+
+        $response
+            ->assertOk()
+            ->assertInertia(fn (Assert $page) => $page->component('TechStack/techstack'));
+    }
+
+    public function test_work_experience_page_is_accessible(): void
+    {
+        $response = $this->get(route('workexperience'));
+
+        $response
+            ->assertOk()
+            ->assertInertia(fn (Assert $page) => $page->component('WorkExperience/workexperience'));
+    }
 }
