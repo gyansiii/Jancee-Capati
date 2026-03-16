@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
+import ProfileMediaSwap from '@/components/ProfileMediaSwap.vue';
 import { useToast } from '@/components/ui/toast';
 import {
     portfolioPalettes,
@@ -49,11 +50,31 @@ const selectPalette = (
             <header
                 class="portfolio-card-surface flex flex-col gap-4 rounded-[2rem] px-5 py-4 sm:flex-row sm:items-center sm:justify-between"
             >
-                <div>
-                    <p class="ui-eyebrow">My Portfolio</p>
-                    <h1 class="mt-1 text-2xl font-semibold tracking-[-0.03em]">
-                        Jancee Capati
-                    </h1>
+                <div class="flex items-center gap-4">
+                    <div
+                        class="relative h-14 w-14 shrink-0 overflow-hidden rounded-full border border-[rgb(var(--portfolio-accent-rgb)/0.18)] bg-[rgb(var(--portfolio-surface-strong-rgb)/0.65)] p-1 shadow-lg sm:h-16 sm:w-16"
+                        :style="{
+                            boxShadow:
+                                '0 18px 30px -24px rgb(var(--portfolio-glow-bottom-rgb) / 0.88)',
+                        }"
+                    >
+                        <ProfileMediaSwap
+                            image-src="/images/profile-hover.gif"
+                            hover-src="/images/profile.jpeg"
+                            alt="Jancee Capati profile photo"
+                            container-class="h-full w-full"
+                            media-class="h-full w-full rounded-full"
+                        />
+                    </div>
+
+                    <div>
+                        <p class="ui-eyebrow">My Portfolio</p>
+                        <h1
+                            class="mt-1 text-2xl font-semibold tracking-[-0.03em]"
+                        >
+                            Jancee Capati
+                        </h1>
+                    </div>
                 </div>
 
                 <div class="flex flex-wrap items-center gap-3">
