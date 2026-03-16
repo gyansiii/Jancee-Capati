@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { computed } from 'vue';
 import { Head, Link, usePage } from '@inertiajs/vue3';
 import {
     BriefcaseBusiness,
@@ -8,6 +7,10 @@ import {
     Mail,
     UserRound,
 } from 'lucide-vue-next';
+import { computed } from 'vue';
+import PortfolioPaletteSidebar from '@/components/PortfolioPaletteSidebar.vue';
+import { Card, CardContent } from '@/components/ui/card';
+import { cn } from '@/lib/utils';
 import {
     aboutme,
     contactus,
@@ -105,17 +108,18 @@ const scrollToSection = (event: Event, href: string): void => {
     <Head :title="title" />
 
     <div
-        class="min-h-screen overflow-hidden scroll-smooth bg-[#04070f] text-white"
+        class="portfolio-strong-text min-h-screen overflow-x-hidden scroll-smooth"
+        :style="{ backgroundColor: 'rgb(var(--portfolio-app-rgb))' }"
     >
         <div
-            class="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(49,46,129,0.2),transparent_35%,rgba(15,118,110,0.12)_100%)]"
+            class="portfolio-stage-gradient pointer-events-none absolute inset-0"
         />
 
         <aside
             class="fixed top-1/2 left-6 z-20 hidden -translate-y-1/2 xl:block"
         >
-            <div
-                class="flex min-h-[24rem] flex-col items-center justify-center gap-3 rounded-[2rem] border border-cyan-400/15 bg-[#132033] px-3 py-4 shadow-lg shadow-cyan-950/20"
+            <Card
+                class="portfolio-nav-shell min-h-[24rem] w-[4.5rem] justify-center gap-3 px-3 py-4"
             >
                 <Link
                     v-for="item in navItems"
@@ -124,31 +128,30 @@ const scrollToSection = (event: Event, href: string): void => {
                     class="flex h-12 w-12 items-center justify-center rounded-full border"
                     :class="
                         isActive(item.match)
-                            ? 'border-cyan-300/70 bg-cyan-400/25 text-cyan-200 shadow-md shadow-cyan-900/30'
+                            ? 'portfolio-nav-item-active'
                             : props.interactive === false
-                              ? 'border-transparent bg-transparent text-slate-500'
-                              : 'border-transparent bg-transparent text-slate-500 transition hover:border-cyan-400/30 hover:text-cyan-200'
+                              ? 'portfolio-nav-item-idle border-transparent bg-transparent opacity-80'
+                              : 'portfolio-nav-item-idle border-transparent bg-transparent transition'
                     "
                 >
                     <component :is="item.icon" class="h-5 w-5" />
                 </Link>
-            </div>
+            </Card>
         </aside>
+        <PortfolioPaletteSidebar />
 
         <div
-            class="relative mx-auto flex min-h-screen max-w-[1380px] flex-col gap-8 px-4 py-5 sm:px-6 lg:px-8 xl:pl-24"
+            class="relative mx-auto flex min-h-screen w-full max-w-[1380px] flex-col gap-8 px-4 py-5 sm:px-6 lg:px-8"
         >
-            <section
-                class="rounded-[2rem] border border-cyan-400/20 bg-[#101827]/82 px-5 py-8 shadow-xl shadow-cyan-950/10 sm:px-8 lg:px-10 lg:py-10"
+            <Card
+                class="portfolio-frame w-full px-5 py-8 sm:px-8 lg:px-10 lg:py-10"
             >
-                <div
-                    class="grid min-h-[calc(88svh-2rem)] gap-8 xl:grid-cols-[72px_minmax(0,1fr)]"
+                <CardContent
+                    class="flex min-h-[calc(88svh-2rem)] flex-col items-center justify-center gap-8"
                 >
-                    <aside
-                        class="flex items-center justify-center xl:justify-start"
-                    >
-                        <div
-                            class="flex flex-row gap-3 rounded-[2rem] border border-cyan-400/15 bg-[#132033] px-3 py-4 shadow-lg shadow-cyan-950/20 xl:hidden"
+                    <aside class="flex items-center justify-center xl:hidden">
+                        <Card
+                            class="portfolio-nav-shell w-[4.5rem] flex-row gap-3 px-3 py-4 xl:hidden"
                         >
                             <Link
                                 v-for="item in navItems"
@@ -157,29 +160,37 @@ const scrollToSection = (event: Event, href: string): void => {
                                 class="flex h-12 w-12 items-center justify-center rounded-full border"
                                 :class="
                                     isActive(item.match)
-                                        ? 'border-cyan-300/70 bg-cyan-400/25 text-cyan-200 shadow-md shadow-cyan-900/30'
+                                        ? 'portfolio-nav-item-active'
                                         : props.interactive === false
-                                          ? 'border-transparent bg-transparent text-slate-500'
-                                          : 'border-transparent bg-transparent text-slate-500 transition hover:border-cyan-400/30 hover:text-cyan-200'
+                                          ? 'portfolio-nav-item-idle border-transparent bg-transparent opacity-80'
+                                          : 'portfolio-nav-item-idle border-transparent bg-transparent transition'
                                 "
                             >
                                 <component :is="item.icon" class="h-5 w-5" />
                             </Link>
-                        </div>
+                        </Card>
                     </aside>
 
                     <div
                         class="mx-auto flex w-full max-w-3xl flex-col items-center justify-center text-center"
                     >
                         <div
-                            class="relative mb-5 h-36 w-36 rounded-full p-[3px] shadow-lg shadow-cyan-950/30 sm:h-40 sm:w-40"
+                            class="relative mx-auto mb-5 h-36 w-36 rounded-full p-[3px] shadow-lg sm:h-40 sm:w-40"
+                            :style="{
+                                boxShadow:
+                                    '0 24px 40px -28px rgb(var(--portfolio-glow-bottom-rgb) / 0.72)',
+                            }"
                         >
                             <div
-                                class="absolute inset-0 rounded-full bg-[linear-gradient(145deg,#14b8a6,#6d28d9,#0ea5e9)] opacity-85"
+                                class="portfolio-avatar-gradient absolute inset-0 rounded-full opacity-85"
                             />
                             <div
                                 v-if="profileImage"
-                                class="relative h-full w-full overflow-hidden rounded-full bg-slate-950"
+                                class="relative h-full w-full overflow-hidden rounded-full"
+                                :style="{
+                                    backgroundColor:
+                                        'rgb(var(--portfolio-surface-strong-rgb))',
+                                }"
                             >
                                 <img
                                     :src="profileImage"
@@ -189,35 +200,29 @@ const scrollToSection = (event: Event, href: string): void => {
                             </div>
                             <div
                                 v-else
-                                class="relative flex h-full w-full items-center justify-center rounded-full bg-[radial-gradient(circle_at_top,#111827,#030712)] text-sm font-medium tracking-[0.5em] text-cyan-200 uppercase"
+                                class="portfolio-card-surface-strong portfolio-strong-text relative flex h-full w-full items-center justify-center rounded-full text-sm font-medium tracking-[0.5em] uppercase"
                             >
                                 JMC
                             </div>
                         </div>
 
-                        <p
-                            class="mb-4 text-xs font-semibold tracking-[0.45em] text-cyan-300/75 uppercase"
-                        >
+                        <p class="ui-eyebrow mb-4 tracking-[0.45em] opacity-75">
                             {{ badge }}
                         </p>
 
-                        <h1
-                            class="text-4xl font-semibold tracking-tight text-white sm:text-5xl xl:text-6xl"
-                        >
+                        <h1 class="ui-hero-title">
                             {{ heading }}
                             <span
-                                class="bg-[linear-gradient(90deg,#60a5fa,#22d3ee)] bg-clip-text text-transparent"
+                                class="text-[rgb(var(--portfolio-highlight-rgb))]"
                                 >{{ accent }}</span
                             >
                         </h1>
 
-                        <p class="mt-3 text-xl text-cyan-200/75 sm:text-2xl">
+                        <p class="portfolio-subtitle mt-3 text-xl sm:text-2xl">
                             {{ subtitle }}
                         </p>
 
-                        <p
-                            class="mt-6 max-w-3xl text-sm leading-7 text-slate-300/80 sm:text-base"
-                        >
+                        <p class="ui-body mt-6 max-w-3xl">
                             {{ description }}
                         </p>
 
@@ -226,12 +231,14 @@ const scrollToSection = (event: Event, href: string): void => {
                         >
                             <component
                                 :is="isAnchorLink(primaryHref) ? 'a' : Link"
-                                :class="[
-                                    'rounded-full bg-[linear-gradient(90deg,#3b82f6,#22d3ee)] px-8 py-4 text-sm font-semibold text-white shadow-md shadow-cyan-950/30',
-                                    props.interactive === false
-                                        ? ''
-                                        : 'transition hover:scale-[1.02]',
-                                ]"
+                                :class="
+                                    cn(
+                                        'rounded-full px-8 py-4 text-sm font-semibold',
+                                        'portfolio-button-primary',
+                                        props.interactive !== false &&
+                                            'transition hover:scale-[1.02]',
+                                    )
+                                "
                                 :href="primaryHref"
                                 @click="
                                     isAnchorLink(primaryHref)
@@ -243,12 +250,14 @@ const scrollToSection = (event: Event, href: string): void => {
                             </component>
                             <component
                                 :is="isAnchorLink(secondaryHref) ? 'a' : Link"
-                                :class="[
-                                    'rounded-full border border-slate-700 bg-transparent px-8 py-4 text-sm font-semibold text-slate-100',
-                                    props.interactive === false
-                                        ? ''
-                                        : 'transition hover:border-cyan-400/70 hover:text-cyan-200',
-                                ]"
+                                :class="
+                                    cn(
+                                        'rounded-full px-8 py-4 text-sm font-semibold',
+                                        'portfolio-button-secondary',
+                                        props.interactive !== false &&
+                                            'transition',
+                                    )
+                                "
                                 :href="secondaryHref"
                                 @click="
                                     isAnchorLink(secondaryHref)
@@ -260,10 +269,10 @@ const scrollToSection = (event: Event, href: string): void => {
                             </component>
                         </div>
                     </div>
-                </div>
-            </section>
+                </CardContent>
+            </Card>
 
-            <section class="grid gap-6 lg:grid-cols-2">
+            <section class="grid w-full gap-6 lg:grid-cols-2">
                 <slot />
             </section>
         </div>

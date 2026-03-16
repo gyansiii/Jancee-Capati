@@ -7,42 +7,37 @@ import { aboutme, contactus, myproject } from '@/routes';
     <Head title="My Portfolio" />
 
     <div
-        class="min-h-screen bg-[linear-gradient(180deg,#f8fafc_0%,#e0f2fe_45%,#fef3c7_100%)] text-slate-900"
+        class="portfolio-strong-text min-h-screen"
+        :style="{ backgroundColor: 'rgb(var(--portfolio-app-rgb))' }"
     >
         <div
-            class="mx-auto flex min-h-screen max-w-6xl flex-col px-6 py-10 lg:px-10"
+            class="portfolio-stage-gradient pointer-events-none absolute inset-0"
+        />
+
+        <div
+            class="relative mx-auto flex min-h-screen max-w-6xl flex-col px-6 py-10 lg:px-10"
         >
             <header
-                class="flex items-center justify-between rounded-full border border-white/70 bg-white/60 px-5 py-3 shadow-sm backdrop-blur"
+                class="portfolio-card-surface flex items-center justify-between rounded-full px-5 py-3"
             >
                 <div>
-                    <p
-                        class="text-xs font-medium tracking-[0.3em] text-sky-700 uppercase"
-                    >
-                        My Portfolio
-                    </p>
-                    <h1 class="text-2xl font-semibold text-slate-950">
+                    <p class="ui-eyebrow">My Portfolio</p>
+                    <h1 class="mt-1 text-2xl font-semibold tracking-[-0.03em]">
                         Jancee Capati
                     </h1>
                 </div>
 
                 <nav class="flex items-center gap-3 text-sm font-medium">
-                    <Link
-                        :href="aboutme().url"
-                        class="rounded-full px-4 py-2 text-slate-700 transition hover:bg-slate-900 hover:text-white"
-                    >
+                    <Link :href="aboutme().url" class="portfolio-nav-link">
                         About Me
                     </Link>
                     <Link
                         :href="myproject().url"
-                        class="rounded-full bg-slate-900 px-4 py-2 text-white transition hover:bg-slate-700"
+                        class="portfolio-button-primary rounded-full px-4 py-2 text-sm font-semibold"
                     >
                         My Projects
                     </Link>
-                    <Link
-                        :href="contactus().url"
-                        class="rounded-full px-4 py-2 text-slate-700 transition hover:bg-slate-900 hover:text-white"
-                    >
+                    <Link :href="contactus().url" class="portfolio-nav-link">
                         Contact
                     </Link>
                 </nav>
@@ -54,20 +49,16 @@ import { aboutme, contactus, myproject } from '@/routes';
                 >
                     <section class="space-y-6">
                         <p
-                            class="inline-flex rounded-full border border-sky-200 bg-white/80 px-4 py-1 text-sm font-medium text-sky-700 shadow-sm"
+                            class="portfolio-pill inline-flex px-4 py-1 text-sm font-semibold"
                         >
                             Welcome to my personal website
                         </p>
 
                         <div class="space-y-4">
-                            <h2
-                                class="max-w-3xl text-5xl font-semibold tracking-tight text-slate-950 sm:text-6xl"
-                            >
+                            <h2 class="ui-hero-title max-w-3xl sm:text-6xl">
                                 My Portfolio
                             </h2>
-                            <p
-                                class="max-w-2xl text-lg leading-8 text-slate-700"
-                            >
+                            <p class="ui-body max-w-2xl text-lg">
                                 A personal space where I present my work,
                                 highlight the projects I am building, and share
                                 my journey toward becoming a skilled developer.
@@ -77,19 +68,19 @@ import { aboutme, contactus, myproject } from '@/routes';
                         <div class="flex flex-wrap gap-4">
                             <Link
                                 :href="aboutme().url"
-                                class="rounded-full bg-sky-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-sky-200 transition hover:bg-sky-500"
+                                class="portfolio-button-primary rounded-full px-6 py-3 text-sm font-semibold"
                             >
                                 Read About Me
                             </Link>
                             <Link
                                 :href="myproject().url"
-                                class="rounded-full border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-900 transition hover:border-slate-900"
+                                class="portfolio-button-secondary rounded-full px-6 py-3 text-sm font-semibold"
                             >
                                 View My Projects
                             </Link>
                             <Link
                                 :href="contactus().url"
-                                class="rounded-full border border-sky-200 bg-sky-50 px-6 py-3 text-sm font-semibold text-sky-700 transition hover:border-sky-500 hover:bg-sky-100"
+                                class="portfolio-button-tonal px-6 py-3 text-sm font-semibold"
                             >
                                 Contact Me
                             </Link>
@@ -97,15 +88,9 @@ import { aboutme, contactus, myproject } from '@/routes';
                     </section>
 
                     <section class="grid gap-4">
-                        <div
-                            class="rounded-[2rem] border border-white/70 bg-white/75 p-6 shadow-xl shadow-sky-100 backdrop-blur"
-                        >
-                            <p
-                                class="text-sm font-medium tracking-[0.3em] text-amber-600 uppercase"
-                            >
-                                Learning by building
-                            </p>
-                            <p class="mt-3 text-base leading-7 text-slate-700">
+                        <div class="portfolio-card-surface rounded-[2rem] p-6">
+                            <p class="ui-label">Learning by building</p>
+                            <p class="ui-body mt-3">
                                 I am continuously improving my Laravel, Vue, and
                                 frontend design skills, building this portfolio
                                 gradually through projects and learning
@@ -115,16 +100,10 @@ import { aboutme, contactus, myproject } from '@/routes';
 
                         <div class="grid gap-4 sm:grid-cols-2">
                             <div
-                                class="rounded-[1.75rem] bg-slate-900 p-6 text-white shadow-lg"
+                                class="portfolio-card-surface-strong rounded-[1.75rem] p-6"
                             >
-                                <p
-                                    class="text-sm tracking-[0.25em] text-sky-300 uppercase"
-                                >
-                                    About Me
-                                </p>
-                                <p
-                                    class="mt-2 text-sm leading-6 text-slate-300"
-                                >
+                                <p class="ui-label">About Me</p>
+                                <p class="ui-muted mt-2">
                                     a passionate developer who enjoys building
                                     web applications, learning new technologies,
                                     and improving my programming skills
@@ -132,16 +111,10 @@ import { aboutme, contactus, myproject } from '@/routes';
                             </div>
 
                             <div
-                                class="rounded-[1.75rem] bg-amber-300 p-6 text-slate-950 shadow-lg shadow-amber-100"
+                                class="portfolio-card-surface rounded-[1.75rem] p-6"
                             >
-                                <p
-                                    class="text-sm tracking-[0.25em] text-amber-900 uppercase"
-                                >
-                                    Projects
-                                </p>
-                                <p
-                                    class="mt-2 text-sm leading-6 text-amber-950/80"
-                                >
+                                <p class="ui-label">Projects</p>
+                                <p class="ui-muted mt-2">
                                     A growing collection of projects and work I
                                     created to showcase my skills, creativity,
                                     experience, and continuous learning journey.
@@ -149,16 +122,10 @@ import { aboutme, contactus, myproject } from '@/routes';
                             </div>
 
                             <div
-                                class="rounded-[1.75rem] border border-sky-200 bg-sky-100 p-6 text-slate-950 shadow-lg shadow-sky-100 sm:col-span-2"
+                                class="portfolio-card-surface rounded-[1.75rem] p-6 sm:col-span-2"
                             >
-                                <p
-                                    class="text-sm tracking-[0.25em] text-sky-700 uppercase"
-                                >
-                                    Contact
-                                </p>
-                                <p
-                                    class="mt-2 text-sm leading-6 text-slate-700"
-                                >
+                                <p class="ui-label">Contact</p>
+                                <p class="ui-muted mt-2">
                                     If you want to connect with me for
                                     opportunities, collaboration, or project
                                     inquiries, you can now visit my contact
