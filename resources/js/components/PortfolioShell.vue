@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { Head, Link, usePage } from '@inertiajs/vue3';
-import { FolderKanban, Home, Mail, UserRound } from 'lucide-vue-next';
-import { aboutme, home, myproject } from '@/routes';
+import { BriefcaseBusiness, FolderKanban, Layers3, UserRound } from 'lucide-vue-next';
+import { aboutme, myproject, techstack, workexperience } from '@/routes';
 
 type NavItem = {
     label: string;
     href: string;
-    icon: typeof Home;
+    icon: typeof UserRound;
     match: string;
 };
 
@@ -30,12 +30,6 @@ const page = usePage();
 
 const navItems = computed<NavItem[]>(() => [
     {
-        label: 'Home',
-        href: home().url,
-        icon: Home,
-        match: '/',
-    },
-    {
         label: 'About',
         href: aboutme().url,
         icon: UserRound,
@@ -48,22 +42,51 @@ const navItems = computed<NavItem[]>(() => [
         match: '/MyProjects',
     },
     {
-        label: 'Contact',
-        href: home().url,
-        icon: Mail,
-        match: '/contact',
+        label: 'Tech Stack',
+        href: techstack().url,
+        icon: Layers3,
+        match: '/TechStack',
+    },
+    {
+        label: 'Work Experience',
+        href: workexperience().url,
+        icon: BriefcaseBusiness,
+        match: '/WorkExperience',
     },
 ]);
 
 const isActive = (match: string): boolean => {
     return page.url === match;
 };
+
+const isAnchorLink = (href: string): boolean => {
+    return href.startsWith('#');
+};
+
+const scrollToSection = (event: Event, href: string): void => {
+    if (!isAnchorLink(href)) {
+        return;
+    }
+
+    event.preventDefault();
+
+    const target = document.querySelector(href);
+
+    if (!(target instanceof HTMLElement)) {
+        return;
+    }
+
+    target.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+    });
+};
 </script>
 
 <template>
     <Head :title="title" />
 
-    <div class="min-h-screen overflow-hidden bg-[#04070f] text-white">
+    <div class="min-h-screen overflow-hidden scroll-smooth bg-[#04070f] text-white">
         <div class="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(49,46,129,0.2),transparent_35%,rgba(15,118,110,0.12)_100%)]" />
 
         <aside class="fixed left-6 top-1/2 z-20 hidden -translate-y-1/2 xl:block">
@@ -144,20 +167,28 @@ const isActive = (match: string): boolean => {
                         </p>
 
                         <div class="mt-8 flex flex-wrap items-center justify-center gap-4">
-                            <Link
+                            <component
+                                :is="isAnchorLink(primaryHref) ? 'a' : Link"
+                                :class="[
+                                    'rounded-full bg-[linear-gradient(90deg,#3b82f6,#22d3ee)] px-8 py-4 text-sm font-semibold text-white shadow-md shadow-cyan-950/30',
+                                    props.interactive === false ? '' : 'transition hover:scale-[1.02]',
+                                ]"
                                 :href="primaryHref"
-                                class="rounded-full bg-[linear-gradient(90deg,#3b82f6,#22d3ee)] px-8 py-4 text-sm font-semibold text-white shadow-md shadow-cyan-950/30"
-                                :class="props.interactive === false ? '' : 'transition hover:scale-[1.02]'"
+                                @click="isAnchorLink(primaryHref) ? scrollToSection($event, primaryHref) : null"
                             >
                                 {{ primaryLabel }}
-                            </Link>
-                            <Link
+                            </component>
+                            <component
+                                :is="isAnchorLink(secondaryHref) ? 'a' : Link"
+                                :class="[
+                                    'rounded-full border border-slate-700 bg-transparent px-8 py-4 text-sm font-semibold text-slate-100',
+                                    props.interactive === false ? '' : 'transition hover:border-cyan-400/70 hover:text-cyan-200',
+                                ]"
                                 :href="secondaryHref"
-                                class="rounded-full border border-slate-700 bg-transparent px-8 py-4 text-sm font-semibold text-slate-100"
-                                :class="props.interactive === false ? '' : 'transition hover:border-cyan-400/70 hover:text-cyan-200'"
+                                @click="isAnchorLink(secondaryHref) ? scrollToSection($event, secondaryHref) : null"
                             >
                                 {{ secondaryLabel }}
-                            </Link>
+                            </component>
                         </div>
                     </div>
                 </div>

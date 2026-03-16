@@ -14,5 +14,11 @@ Route::get('/Aboutme', function () {
 Route::get('/MyProjects', function () {
     return Inertia::render('MyProjects/myproject');
 })->name('myproject');
+Route::get('/TechStack', function () {
+    return Inertia::render('TechStack/techstack');
+})->name('techstack');
+Route::get('/WorkExperience', function () {
+    return Inertia::render('WorkExperience/workexperience');
+})->name('workexperience');
 
 require __DIR__.'/settings.php';
