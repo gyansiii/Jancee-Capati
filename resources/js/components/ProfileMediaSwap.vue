@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { cn } from '@/lib/utils';
 
 const props = withDefaults(
@@ -20,18 +20,38 @@ const props = withDefaults(
 );
 
 const shouldRenderHoverMedia = ref(false);
+const isHoverCapable = ref(false);
+let hasCheckedHoverCapability = false;
 
 const hasHoverMedia = computed((): boolean => {
     return Boolean(
-        props.imageSrc && props.hoverSrc && shouldRenderHoverMedia.value,
+        props.imageSrc &&
+            props.hoverSrc &&
+            isHoverCapable.value &&
+            shouldRenderHoverMedia.value,
     );
 });
 
+const detectHoverCapability = (): void => {
+    if (typeof window === 'undefined' || hasCheckedHoverCapability) {
+        return;
+    }
+
+    isHoverCapable.value = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    hasCheckedHoverCapability = true;
+};
+
 const prepareHoverMedia = (): void => {
-    if (props.hoverSrc) {
+    detectHoverCapability();
+
+    if (props.hoverSrc && isHoverCapable.value) {
         shouldRenderHoverMedia.value = true;
     }
 };
+
+onMounted(() => {
+    detectHoverCapability();
+});
 </script>
 
 <template>
@@ -51,6 +71,7 @@ const prepareHoverMedia = (): void => {
                 :alt="alt"
                 loading="eager"
                 decoding="async"
+                fetchpriority="high"
                 :class="
                     cn(
                         'h-full w-full object-cover transition-opacity duration-300',
@@ -66,6 +87,7 @@ const prepareHoverMedia = (): void => {
                 :alt="`${alt} animated preview`"
                 loading="lazy"
                 decoding="async"
+                fetchpriority="low"
                 :class="
                     cn(
                         'pointer-events-none absolute inset-0 h-full w-full object-cover opacity-0 transition-opacity duration-300 motion-safe:group-focus-within:opacity-100 motion-safe:group-hover:opacity-100',

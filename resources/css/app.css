@@ -361,32 +361,32 @@
 
 @layer utilities {
     .portfolio-frame {
-        @apply rounded-[2rem] border shadow-xl backdrop-blur-md;
+        @apply rounded-[2rem] border shadow-lg;
         border-color: rgb(var(--portfolio-accent-rgb) / 0.2);
         background:
             linear-gradient(
                 180deg,
-                rgb(var(--portfolio-frame-rgb) / 0.9),
-                rgb(var(--portfolio-frame-rgb) / 0.78)
+                rgb(var(--portfolio-frame-rgb) / 0.96),
+                rgb(var(--portfolio-frame-rgb) / 0.9)
             ),
-            rgb(var(--portfolio-frame-rgb) / 0.82);
+            rgb(var(--portfolio-frame-rgb) / 0.92);
         box-shadow:
-            0 24px 60px -36px rgb(var(--portfolio-glow-bottom-rgb) / 0.28),
+            0 18px 42px -32px rgb(var(--portfolio-glow-bottom-rgb) / 0.22),
             inset 0 1px 0 rgb(var(--portfolio-accent-text-rgb) / 0.05);
     }
 
     .portfolio-panel {
-        @apply rounded-[1.75rem] border backdrop-blur-sm;
+        @apply rounded-[1.75rem] border;
         border-color: rgb(var(--portfolio-accent-rgb) / 0.2);
         background:
             linear-gradient(
                 180deg,
-                rgb(var(--portfolio-panel-rgb) / 0.8),
-                rgb(var(--portfolio-panel-rgb) / 0.7)
+                rgb(var(--portfolio-panel-rgb) / 0.92),
+                rgb(var(--portfolio-panel-rgb) / 0.86)
             ),
-            rgb(var(--portfolio-panel-rgb) / 0.72);
+            rgb(var(--portfolio-panel-rgb) / 0.88);
         box-shadow:
-            0 18px 42px -34px rgb(var(--portfolio-glow-bottom-rgb) / 0.24),
+            0 14px 32px -28px rgb(var(--portfolio-glow-bottom-rgb) / 0.18),
             inset 0 1px 0 rgb(var(--portfolio-accent-text-rgb) / 0.04);
         content-visibility: auto;
         contain-intrinsic-size: 1px 980px;
@@ -399,60 +399,59 @@
     }
 
     .portfolio-card-surface {
-        @apply border backdrop-blur-sm transition-[transform,border-color,background-color,box-shadow] duration-200;
+        @apply border transition-[transform,border-color,background-color,box-shadow] duration-200;
         border-color: rgb(var(--portfolio-accent-rgb) / 0.18);
         background:
             linear-gradient(
                 180deg,
-                rgb(var(--portfolio-surface-rgb) / 0.54),
-                rgb(var(--portfolio-surface-rgb) / 0.4)
+                rgb(var(--portfolio-surface-rgb) / 0.94),
+                rgb(var(--portfolio-surface-rgb) / 0.88)
             ),
-            rgb(var(--portfolio-surface-rgb) / 0.42);
+            rgb(var(--portfolio-surface-rgb) / 0.9);
         box-shadow:
-            0 14px 30px -28px rgb(var(--portfolio-glow-bottom-rgb) / 0.42),
+            0 10px 24px -22px rgb(var(--portfolio-glow-bottom-rgb) / 0.24),
             inset 0 1px 0 rgb(var(--portfolio-accent-text-rgb) / 0.05);
-        will-change: transform;
         content-visibility: auto;
         contain-intrinsic-size: 1px 240px;
     }
 
     .portfolio-card-surface:hover {
         border-color: rgb(var(--portfolio-accent-rgb) / 0.28);
-        transform: translate3d(0, -4px, 0);
+        transform: translate3d(0, -2px, 0);
         box-shadow:
-            0 22px 36px -28px rgb(var(--portfolio-glow-bottom-rgb) / 0.52),
+            0 14px 28px -24px rgb(var(--portfolio-glow-bottom-rgb) / 0.28),
             inset 0 1px 0 rgb(var(--portfolio-accent-text-rgb) / 0.06);
     }
 
     .portfolio-card-surface-strong {
-        @apply border backdrop-blur-sm;
+        @apply border;
         border-color: rgb(var(--portfolio-accent-rgb) / 0.18);
         background:
             linear-gradient(
                 180deg,
-                rgb(var(--portfolio-surface-strong-rgb) / 0.8),
-                rgb(var(--portfolio-surface-strong-rgb) / 0.64)
+                rgb(var(--portfolio-surface-strong-rgb) / 0.94),
+                rgb(var(--portfolio-surface-strong-rgb) / 0.84)
             ),
-            rgb(var(--portfolio-surface-strong-rgb) / 0.62);
+            rgb(var(--portfolio-surface-strong-rgb) / 0.88);
         box-shadow:
-            0 18px 36px -28px rgb(var(--portfolio-glow-bottom-rgb) / 0.46),
+            0 12px 26px -22px rgb(var(--portfolio-glow-bottom-rgb) / 0.26),
             inset 0 1px 0 rgb(var(--portfolio-accent-text-rgb) / 0.05);
         content-visibility: auto;
         contain-intrinsic-size: 1px 240px;
     }
 
     .portfolio-nav-shell {
-        @apply rounded-[2rem] border shadow-lg backdrop-blur-md;
+        @apply rounded-[2rem] border shadow-md;
         border-color: rgb(var(--portfolio-rail-border-rgb) / 0.28);
         background:
             linear-gradient(
                 180deg,
-                rgb(var(--portfolio-rail-rgb) / 0.98),
-                rgb(var(--portfolio-rail-rgb) / 0.94)
+                rgb(var(--portfolio-rail-rgb) / 0.99),
+                rgb(var(--portfolio-rail-rgb) / 0.97)
             ),
-            rgb(var(--portfolio-rail-rgb) / 0.96);
+            rgb(var(--portfolio-rail-rgb) / 0.98);
         box-shadow:
-            0 18px 32px -24px rgb(var(--portfolio-glow-bottom-rgb) / 0.4),
+            0 12px 24px -20px rgb(var(--portfolio-glow-bottom-rgb) / 0.24),
             inset 0 1px 0 rgb(var(--portfolio-accent-text-rgb) / 0.04);
     }
 
@@ -494,7 +493,6 @@
         box-shadow:
             0 16px 28px -18px rgb(var(--portfolio-glow-bottom-rgb) / 0.56),
             inset 0 1px 0 rgb(255 255 255 / 0.14);
-        will-change: transform;
     }
 
     .portfolio-button-primary:hover {
@@ -525,7 +523,6 @@
         border-color: rgb(var(--portfolio-accent-rgb) / 0.26);
         background-color: rgb(var(--portfolio-surface-rgb) / 0.74);
         color: rgb(var(--portfolio-button-secondary-text-rgb));
-        will-change: transform;
     }
 
     .portfolio-button-secondary:hover {
@@ -550,7 +547,6 @@
         border-color: rgb(var(--portfolio-accent-rgb) / 0.25);
         background-color: rgb(var(--portfolio-accent-rgb) / 0.12);
         color: rgb(var(--portfolio-accent-text-rgb));
-        will-change: transform;
     }
 
     .portfolio-button-tonal:hover {
@@ -563,7 +559,7 @@
     }
 
     .portfolio-pill {
-        @apply rounded-full border shadow-sm backdrop-blur-sm;
+        @apply rounded-full border shadow-sm;
         border-color: rgb(var(--portfolio-accent-rgb) / 0.2);
         background-color: rgb(var(--portfolio-surface-rgb) / 0.82);
         color: rgb(var(--portfolio-button-secondary-text-rgb));
@@ -587,7 +583,7 @@
                 transparent 28%
             ),
             rgb(var(--portfolio-app-rgb) / 0.68);
-        backdrop-filter: blur(10px);
+        backdrop-filter: blur(6px);
     }
 
     .portfolio-dialog-close {
@@ -747,7 +743,6 @@
 
     .portfolio-animate-fade-up {
         animation: portfolio-fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
-        will-change: transform, opacity;
     }
 
     .portfolio-animate-fade-up-delay-1 {
@@ -764,6 +759,21 @@
 
     .portfolio-animate-float {
         animation: portfolio-soft-float 10s ease-in-out 1;
+    }
+
+    @media (pointer: coarse) {
+        .portfolio-frame,
+        .portfolio-panel,
+        .portfolio-card-surface,
+        .portfolio-card-surface-strong,
+        .portfolio-nav-shell,
+        .portfolio-pill {
+            box-shadow: none;
+        }
+
+        .portfolio-stage-gradient {
+            opacity: 0.75;
+        }
     }
 }
 

@@ -104,6 +104,7 @@ const projects = [
         secondary-label="My Projects"
         :secondary-href="myproject().url"
         profile-image="/images/profile.jpeg"
+        profile-hover-image="/images/profile-hover.gif"
     >
         <article
             id="work-experience"
