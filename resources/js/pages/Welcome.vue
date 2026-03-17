@@ -52,7 +52,8 @@ const selectPalette = (
                         }"
                     >
                         <ProfileMediaSwap
-                            image-src="/images/profile.jpeg"
+                            image-src="/images/profile-hover.gif"
+                            hover-src="/images/profile.jpeg"
                             alt="Jancee Capati profile photo"
                             container-class="h-full w-full"
                             media-class="h-full w-full rounded-full"
@@ -136,14 +137,12 @@ const selectPalette = (
                         <div class="flex flex-wrap gap-4">
                             <Link
                                 :href="aboutme().url"
-                                prefetch
                                 class="portfolio-button-primary rounded-full px-6 py-3 text-sm font-semibold"
                             >
                                 Read About Me
                             </Link>
                             <Link
                                 :href="contactus().url"
-                                prefetch
                                 class="portfolio-button-tonal px-6 py-3 text-sm font-semibold"
                             >
                                 Contact Me
