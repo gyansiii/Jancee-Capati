@@ -35,11 +35,18 @@ const props = defineProps<{
     description: string;
     primaryLabel: string;
     primaryHref: string;
+    primaryAsButton?: boolean;
+    primaryExpanded?: boolean;
+    primaryControls?: string;
     secondaryLabel: string;
     secondaryHref: string;
     interactive?: boolean;
     profileImage?: string;
     profileHoverImage?: string;
+}>();
+
+const emit = defineEmits<{
+    (event: 'primary-click'): void;
 }>();
 
 const page = usePage();
@@ -102,6 +109,19 @@ const scrollToSection = (event: Event, href: string): void => {
         behavior: 'smooth',
         block: 'start',
     });
+};
+
+const handlePrimaryClick = (event: Event): void => {
+    if (props.primaryAsButton) {
+        event.preventDefault();
+        emit('primary-click');
+
+        return;
+    }
+
+    if (isAnchorLink(props.primaryHref)) {
+        scrollToSection(event, props.primaryHref);
+    }
 };
 </script>
 
@@ -237,7 +257,13 @@ const scrollToSection = (event: Event, href: string): void => {
                             class="portfolio-animate-fade-up portfolio-animate-fade-up-delay-3 mt-8 flex flex-wrap items-center justify-center gap-4"
                         >
                             <component
-                                :is="isAnchorLink(primaryHref) ? 'a' : Link"
+                                :is="
+                                    primaryAsButton
+                                        ? 'button'
+                                        : isAnchorLink(primaryHref)
+                                          ? 'a'
+                                          : Link
+                                "
                                 :class="
                                     cn(
                                         'rounded-full px-8 py-4 text-sm font-semibold',
@@ -246,12 +272,19 @@ const scrollToSection = (event: Event, href: string): void => {
                                             'transition hover:scale-[1.02]',
                                     )
                                 "
-                                :href="primaryHref"
-                                @click="
-                                    isAnchorLink(primaryHref)
-                                        ? scrollToSection($event, primaryHref)
-                                        : null
+                                :href="primaryAsButton ? undefined : primaryHref"
+                                :type="primaryAsButton ? 'button' : undefined"
+                                :aria-expanded="
+                                    primaryAsButton
+                                        ? primaryExpanded
+                                        : undefined
                                 "
+                                :aria-controls="
+                                    primaryAsButton
+                                        ? primaryControls
+                                        : undefined
+                                "
+                                @click="handlePrimaryClick"
                             >
                                 {{ primaryLabel }}
                             </component>

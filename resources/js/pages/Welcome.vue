@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
+import { ref } from 'vue';
 import ProfileMediaSwap from '@/components/ProfileMediaSwap.vue';
 import { useToast } from '@/components/ui/toast';
 import {
@@ -11,6 +12,7 @@ import { aboutme, contactus } from '@/routes';
 
 const { colorPalette, updateColorPalette } = useColorPalette();
 const { toast } = useToast();
+const isWelcomePreviewVisible = ref(false);
 
 const selectPalette = (
     value: (typeof portfolioPalettes)[number]['value'],
@@ -23,6 +25,10 @@ const selectPalette = (
         description: 'The welcome page colors have been updated.',
         variant: 'info',
     });
+};
+
+const toggleWelcomePreview = (): void => {
+    isWelcomePreviewVisible.value = !isWelcomePreviewVisible.value;
 };
 </script>
 
@@ -117,11 +123,45 @@ const selectPalette = (
                     <section
                         class="portfolio-animate-fade-up portfolio-animate-fade-up-delay-1 space-y-6"
                     >
-                        <p
-                            class="portfolio-pill inline-flex px-4 py-1 text-sm font-semibold"
-                        >
-                            Welcome to my personal website
-                        </p>
+                        <div class="relative inline-flex w-fit overflow-visible">
+                            <div
+                                id="welcome-preview"
+                                class="pointer-events-none absolute bottom-full left-1/2 z-10 mb-4 w-[min(18rem,80vw)] -translate-x-1/2 transition duration-300 ease-out"
+                                :class="
+                                    isWelcomePreviewVisible
+                                        ? 'translate-y-0 opacity-100'
+                                        : 'translate-y-6 opacity-0'
+                                "
+                                aria-hidden="true"
+                            >
+                                <div
+                                    class="portfolio-card-surface overflow-hidden rounded-[1.75rem] border border-[rgb(var(--portfolio-accent-rgb)/0.18)] p-3 shadow-[0_24px_60px_-34px_rgb(var(--portfolio-glow-bottom-rgb)/0.9)] backdrop-blur-sm"
+                                >
+                                    <img
+                                        src="/images/port.gif"
+                                        alt="Animated developer illustration"
+                                        class="h-48 w-full rounded-[1.25rem] object-cover"
+                                    />
+                                    <p class="ui-muted mt-3 text-center text-sm">
+                                        This is my secret 🤫 a mix of logic, creativity, and late-night coding sessions that bring projects to life.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <button
+                                type="button"
+                                class="portfolio-pill relative inline-flex cursor-pointer px-4 py-1 text-sm font-semibold transition duration-200 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--portfolio-accent-rgb)/0.45)] focus-visible:ring-offset-2 focus-visible:ring-offset-[rgb(var(--portfolio-app-rgb))]"
+                                :aria-expanded="isWelcomePreviewVisible"
+                                aria-controls="welcome-preview"
+                                @click="toggleWelcomePreview"
+                            >
+                                {{
+                                    isWelcomePreviewVisible
+                                        ? 'Welcome to my personal website'
+                                        : 'Welcome to my personal website'
+                                }}
+                            </button>
+                        </div>
 
                         <div class="space-y-4">
                             <h2 class="ui-hero-title max-w-3xl sm:text-6xl">

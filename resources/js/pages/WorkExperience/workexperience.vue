@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { nextTick, ref } from 'vue';
 import PortfolioShell from '@/components/PortfolioShell.vue';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { myproject } from '@/routes';
@@ -89,6 +90,25 @@ const projects = [
         technologies: ['HTML', 'CSS', 'JavaScript', 'Firebase'],
     },
 ];
+
+const isExperienceVisible = ref(false);
+
+const toggleExperience = async (): Promise<void> => {
+    isExperienceVisible.value = !isExperienceVisible.value;
+
+    if (!isExperienceVisible.value) {
+        return;
+    }
+
+    await nextTick();
+
+    const experienceSection = document.getElementById('work-experience');
+
+    experienceSection?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+    });
+};
 </script>
 
 <template>
@@ -99,161 +119,181 @@ const projects = [
         accent="Experience"
         subtitle="Internship work, academic projects, and practical development experience."
         description="This page highlights my internship experience, major academic projects, and the systems I have built while developing my skills as a junior full-stack web developer."
-        primary-label="View Experience"
+        :primary-label="
+            isExperienceVisible ? 'Hide Experience' : 'View Experience'
+        "
         primary-href="#work-experience"
+        primary-as-button
+        :primary-expanded="isExperienceVisible"
+        primary-controls="work-experience"
         secondary-label="My Projects"
         :secondary-href="myproject().url"
         profile-image="/images/profile.jpeg"
         profile-hover-image="/images/profile-hover.gif"
+        @primary-click="toggleExperience"
     >
-        <article
+        <div
             id="work-experience"
-            class="portfolio-panel mt-10 flex w-full max-w-[88rem] scroll-mt-24 flex-col justify-start p-7 lg:col-span-2 xl:mt-16 xl:p-8"
+            class="scroll-mt-24 lg:col-span-2"
         >
-            <div class="flex w-full flex-col items-start self-start text-left">
-                <p class="ui-eyebrow">Work Experience</p>
-                <h2 class="ui-section-title mt-4">
-                    Internship and project experience
-                </h2>
-                <p class="ui-body mt-4">
-                    During my On-the-Job Training, I worked as a Full-Stack Web
-                    Developer Intern and helped develop a web-based Registration
-                    System using PHP, Laravel, Vue, Blade, and
-                    PostgreSQL/SQLite.
-                </p>
-                <p class="ui-body mt-4">
-                    I worked on both frontend and backend development, including
-                    building user interfaces, handling form submissions,
-                    integrating databases, and implementing document processing
-                    and PDF generation features. The system allows users to
-                    submit registration information and upload required
-                    documents while administrators can review, manage, and
-                    organize records efficiently.
-                </p>
-                <p class="ui-body mt-4">
-                    This experience strengthened my understanding of full-stack
-                    development, system workflows, and real-world web
-                    application development.
-                </p>
-            </div>
-
-            <Card
-                class="portfolio-card-surface portfolio-animate-fade-up portfolio-animate-fade-up-delay-2 mt-7"
+            <Transition
+                enter-active-class="transition-all duration-500 ease-out"
+                enter-from-class="translate-y-10 scale-[0.98] opacity-0"
+                enter-to-class="translate-y-0 scale-100 opacity-100"
+                leave-active-class="transition-all duration-450 ease-in"
+                leave-from-class="translate-y-0 scale-100 opacity-100"
+                leave-to-class="translate-y-12 scale-[0.98] opacity-0"
             >
-                <CardHeader class="pb-2">
-                    <CardTitle class="ui-card-title"
-                        >Full-Stack Web Developer Intern (OJT)</CardTitle
-                    >
-                    <p class="ui-label mt-2">2026-2027</p>
-                    <p class="ui-muted mt-2">
-                        The Firm Consultant Inc, Guagua, Pampanga
-                    </p>
-                </CardHeader>
-                <CardContent>
-                    <p class="ui-muted">
-                        My OJT gave me hands-on experience in building real
-                        application features, improving workflows, working with
-                        structured data, and understanding how frontend and
-                        backend development come together inside a complete
-                        system.
-                    </p>
-                    <div class="mt-4">
-                        <p class="portfolio-strong-text text-sm font-semibold">
-                            Technologies Used
-                        </p>
-                        <div class="mt-3 flex flex-wrap gap-2">
-                            <span class="ui-chip">PHP</span>
-                            <span class="ui-chip">Laravel</span>
-                            <span class="ui-chip">Vue</span>
-                            <span class="ui-chip">Blade</span>
-                            <span class="ui-chip">Tailwind CSS</span>
-                            <span class="ui-chip">shadcn/ui</span>
-                            <span class="ui-chip">PostgreSQL</span>
-                            <span class="ui-chip">SQLite</span>
-                            <span class="ui-chip">Docker</span>
-                        </div>
-                    </div>
-                </CardContent>
-            </Card>
-
-            <div class="mt-8 space-y-5">
-                <Card
-                    v-for="project in projects"
-                    :key="project.title"
-                    class="portfolio-card-surface portfolio-animate-fade-up"
+                <article
+                    v-if="isExperienceVisible"
+                    class="portfolio-panel mt-10 flex w-full max-w-[88rem] origin-top flex-col justify-start p-7 xl:mt-16 xl:p-8"
                 >
-                    <CardHeader class="pb-2">
-                        <CardTitle class="ui-card-title">{{
-                            project.title
-                        }}</CardTitle>
-                        <p class="ui-label mt-2">{{ project.subtitle }}</p>
-                        <p class="ui-label mt-2">{{ project.year }}</p>
-                        <p class="ui-muted mt-2">{{ project.location }}</p>
-                    </CardHeader>
-                    <CardContent>
-                        <p class="ui-muted">
-                            {{ project.description }}
+                    <div class="flex w-full flex-col items-start self-start text-left">
+                        <p class="ui-eyebrow">Work Experience</p>
+                        <h2 class="ui-section-title mt-4">
+                            Internship and project experience
+                        </h2>
+                        <p class="ui-body mt-4">
+                            During my On-the-Job Training, I worked as a Full-Stack Web
+                            Developer Intern and helped develop a web-based Registration
+                            System using PHP, Laravel, Vue, Blade, and
+                            PostgreSQL/SQLite.
                         </p>
-                        <p class="ui-muted mt-3">
-                            {{ project.details }}
+                        <p class="ui-body mt-4">
+                            I worked on both frontend and backend development, including
+                            building user interfaces, handling form submissions,
+                            integrating databases, and implementing document processing
+                            and PDF generation features. The system allows users to
+                            submit registration information and upload required
+                            documents while administrators can review, manage, and
+                            organize records efficiently.
                         </p>
+                        <p class="ui-body mt-4">
+                            This experience strengthened my understanding of full-stack
+                            development, system workflows, and real-world web
+                            application development.
+                        </p>
+                    </div>
 
-                        <div v-if="project.features" class="mt-4">
-                            <p
-                                class="portfolio-strong-text text-sm font-semibold"
+                    <Card
+                        class="portfolio-card-surface portfolio-animate-fade-up portfolio-animate-fade-up-delay-2 mt-7"
+                    >
+                        <CardHeader class="pb-2">
+                            <CardTitle class="ui-card-title"
+                                >Full-Stack Web Developer Intern (OJT)</CardTitle
                             >
-                                Key Features
+                            <p class="ui-label mt-2">2026-2027</p>
+                            <p class="ui-muted mt-2">
+                                The Firm Consultant Inc, Guagua, Pampanga
                             </p>
-                            <ul class="mt-3 grid gap-2 md:grid-cols-2">
-                                <li
-                                    v-for="feature in project.features"
-                                    :key="feature"
-                                    class="ui-list-surface"
-                                >
-                                    {{ feature }}
-                                </li>
-                            </ul>
-                        </div>
-
-                        <div class="mt-4">
-                            <p
-                                class="portfolio-strong-text text-sm font-semibold"
-                            >
-                                Technologies Used
+                        </CardHeader>
+                        <CardContent>
+                            <p class="ui-muted">
+                                My OJT gave me hands-on experience in building real
+                                application features, improving workflows, working with
+                                structured data, and understanding how frontend and
+                                backend development come together inside a complete
+                                system.
                             </p>
-                            <div class="mt-3 flex flex-wrap gap-2">
-                                <span
-                                    v-for="technology in project.technologies"
-                                    :key="technology"
-                                    class="ui-chip"
-                                >
-                                    {{ technology }}
-                                </span>
+                            <div class="mt-4">
+                                <p class="portfolio-strong-text text-sm font-semibold">
+                                    Technologies Used
+                                </p>
+                                <div class="mt-3 flex flex-wrap gap-2">
+                                    <span class="ui-chip">PHP</span>
+                                    <span class="ui-chip">Laravel</span>
+                                    <span class="ui-chip">Vue</span>
+                                    <span class="ui-chip">Blade</span>
+                                    <span class="ui-chip">Tailwind CSS</span>
+                                    <span class="ui-chip">shadcn/ui</span>
+                                    <span class="ui-chip">PostgreSQL</span>
+                                    <span class="ui-chip">SQLite</span>
+                                    <span class="ui-chip">Docker</span>
+                                </div>
                             </div>
-                        </div>
-                    </CardContent>
-                </Card>
-            </div>
+                        </CardContent>
+                    </Card>
 
-            <Card
-                class="portfolio-card-surface portfolio-animate-fade-up portfolio-animate-fade-up-delay-3 mt-8"
-            >
-                <CardHeader class="pb-2">
-                    <CardTitle class="ui-card-title">Summary</CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <p class="ui-muted">
-                        I am a Junior Full-Stack Web Developer with experience
-                        developing web applications through academic projects
-                        and internship experience. I have worked with
-                        technologies such as Laravel, React, PHP, JavaScript,
-                        and modern frontend tools to build systems that manage
-                        data, support collaboration, and solve real-world
-                        problems. I continuously improve my skills by building
-                        projects and exploring new technologies.
-                    </p>
-                </CardContent>
-            </Card>
-        </article>
+                    <div class="mt-8 space-y-5">
+                        <Card
+                            v-for="project in projects"
+                            :key="project.title"
+                            class="portfolio-card-surface portfolio-animate-fade-up"
+                        >
+                            <CardHeader class="pb-2">
+                                <CardTitle class="ui-card-title">{{
+                                    project.title
+                                }}</CardTitle>
+                                <p class="ui-label mt-2">{{ project.subtitle }}</p>
+                                <p class="ui-label mt-2">{{ project.year }}</p>
+                                <p class="ui-muted mt-2">{{ project.location }}</p>
+                            </CardHeader>
+                            <CardContent>
+                                <p class="ui-muted">
+                                    {{ project.description }}
+                                </p>
+                                <p class="ui-muted mt-3">
+                                    {{ project.details }}
+                                </p>
+
+                                <div v-if="project.features" class="mt-4">
+                                    <p
+                                        class="portfolio-strong-text text-sm font-semibold"
+                                    >
+                                        Key Features
+                                    </p>
+                                    <ul class="mt-3 grid gap-2 md:grid-cols-2">
+                                        <li
+                                            v-for="feature in project.features"
+                                            :key="feature"
+                                            class="ui-list-surface"
+                                        >
+                                            {{ feature }}
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="mt-4">
+                                    <p
+                                        class="portfolio-strong-text text-sm font-semibold"
+                                    >
+                                        Technologies Used
+                                    </p>
+                                    <div class="mt-3 flex flex-wrap gap-2">
+                                        <span
+                                            v-for="technology in project.technologies"
+                                            :key="technology"
+                                            class="ui-chip"
+                                        >
+                                            {{ technology }}
+                                        </span>
+                                    </div>
+                                </div>
+                            </CardContent>
+                        </Card>
+                    </div>
+
+                    <Card
+                        class="portfolio-card-surface portfolio-animate-fade-up portfolio-animate-fade-up-delay-3 mt-8"
+                    >
+                        <CardHeader class="pb-2">
+                            <CardTitle class="ui-card-title">Summary</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            <p class="ui-muted">
+                                I am a Junior Full-Stack Web Developer with experience
+                                developing web applications through academic projects
+                                and internship experience. I have worked with
+                                technologies such as Laravel, React, PHP, JavaScript,
+                                and modern frontend tools to build systems that manage
+                                data, support collaboration, and solve real-world
+                                problems. I continuously improve my skills by building
+                                projects and exploring new technologies.
+                            </p>
+                        </CardContent>
+                    </Card>
+                </article>
+            </Transition>
+        </div>
     </PortfolioShell>
 </template>

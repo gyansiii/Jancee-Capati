@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { nextTick, ref } from 'vue';
 import PortfolioShell from '@/components/PortfolioShell.vue';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { home } from '@/routes';
@@ -188,6 +189,25 @@ const progressWidth = (mastery: string): string => {
 
     return `${percentage}%`;
 };
+
+const isTechStackVisible = ref(false);
+
+const toggleTechStack = async (): Promise<void> => {
+    isTechStackVisible.value = !isTechStackVisible.value;
+
+    if (!isTechStackVisible.value) {
+        return;
+    }
+
+    await nextTick();
+
+    const techStackSection = document.getElementById('tech-stack');
+
+    techStackSection?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+    });
+};
 </script>
 
 <template>
@@ -198,91 +218,111 @@ const progressWidth = (mastery: string): string => {
         accent="Tech Stack"
         subtitle="The tools and technologies I use while building projects."
         description="This section groups the technologies I work with into the areas I use most often, together with a simple personal rating of how confident I currently feel using each one."
-        primary-label="View Tech Stack"
+        :primary-label="
+            isTechStackVisible ? 'Hide Tech Stack' : 'View Tech Stack'
+        "
         primary-href="#tech-stack"
+        primary-as-button
+        :primary-expanded="isTechStackVisible"
+        primary-controls="tech-stack"
         secondary-label="Back Home"
         :secondary-href="home().url"
         profile-image="/images/profile.jpeg"
         profile-hover-image="/images/profile-hover.gif"
+        @primary-click="toggleTechStack"
     >
-        <article
+        <div
             id="tech-stack"
-            class="portfolio-panel mt-10 flex w-full max-w-[88rem] scroll-mt-24 flex-col justify-start p-7 lg:col-span-2 xl:mt-16 xl:p-8"
+            class="scroll-mt-24 lg:col-span-2"
         >
-            <div class="flex w-full flex-col items-start self-start text-left">
-                <p class="ui-eyebrow">Tech Stack</p>
-                <h2 class="ui-section-title mt-4">
-                    Tools I use and keep improving
-                </h2>
-                <p class="ui-body mt-4">
-                    My tech stack continues to grow as I work on school
-                    projects, OJT tasks, and portfolio improvements. These are
-                    the tools I currently use the most and the ones I am
-                    continuing to develop with more confidence.
-                </p>
-            </div>
-
-            <div class="mt-8 space-y-8">
-                <section v-for="section in stackSections" :key="section.title">
-                    <div class="mb-4 flex items-center gap-3">
-                        <div class="portfolio-rule h-px flex-1" />
-                        <p class="ui-label text-sm tracking-[0.3em]">
-                            {{ section.title }}
+            <Transition
+                enter-active-class="transition-all duration-500 ease-out"
+                enter-from-class="translate-y-10 scale-[0.98] opacity-0"
+                enter-to-class="translate-y-0 scale-100 opacity-100"
+                leave-active-class="transition-all duration-450 ease-in"
+                leave-from-class="translate-y-0 scale-100 opacity-100"
+                leave-to-class="translate-y-12 scale-[0.98] opacity-0"
+            >
+                <article
+                    v-if="isTechStackVisible"
+                    class="portfolio-panel mt-10 flex w-full max-w-[88rem] origin-top flex-col justify-start p-7 xl:mt-16 xl:p-8"
+                >
+                    <div class="flex w-full flex-col items-start self-start text-left">
+                        <p class="ui-eyebrow">Tech Stack</p>
+                        <h2 class="ui-section-title mt-4">
+                            Tools I use and keep improving
+                        </h2>
+                        <p class="ui-body mt-4">
+                            My tech stack continues to grow as I work on school
+                            projects, OJT tasks, and portfolio improvements. These are
+                            the tools I currently use the most and the ones I am
+                            continuing to develop with more confidence.
                         </p>
-                        <div class="portfolio-rule h-px flex-1" />
                     </div>
 
-                    <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-                        <Card
-                            v-for="item in section.items"
-                            :key="item.name"
-                            class="portfolio-card-surface min-h-48 justify-between"
-                        >
-                            <CardHeader class="pb-2">
-                                <div
-                                    class="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br p-3 shadow-md"
-                                    :class="item.accent"
-                                >
-                                    <img
-                                        :src="item.logo"
-                                        :alt="`${item.name} logo`"
-                                        loading="lazy"
-                                        decoding="async"
-                                        fetchpriority="low"
-                                        class="h-full w-full object-contain"
-                                    />
-                                </div>
-                            </CardHeader>
+                    <div class="mt-8 space-y-8">
+                        <section v-for="section in stackSections" :key="section.title">
+                            <div class="mb-4 flex items-center gap-3">
+                                <div class="portfolio-rule h-px flex-1" />
+                                <p class="ui-label text-sm tracking-[0.3em]">
+                                    {{ section.title }}
+                                </p>
+                                <div class="portfolio-rule h-px flex-1" />
+                            </div>
 
-                            <CardContent class="mt-auto">
-                                <div
-                                    class="flex items-end justify-between gap-4"
+                            <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+                                <Card
+                                    v-for="item in section.items"
+                                    :key="item.name"
+                                    class="portfolio-card-surface min-h-48 justify-between"
                                 >
-                                    <CardTitle
-                                        class="portfolio-strong-text text-sm font-semibold tracking-[0.08em] uppercase"
-                                    >
-                                        {{ item.name }}
-                                    </CardTitle>
-                                    <span class="ui-chip">
-                                        {{ item.mastery }}
-                                    </span>
-                                </div>
+                                    <CardHeader class="pb-2">
+                                        <div
+                                            class="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br p-3 shadow-md"
+                                            :class="item.accent"
+                                        >
+                                            <img
+                                                :src="item.logo"
+                                                :alt="`${item.name} logo`"
+                                                loading="lazy"
+                                                decoding="async"
+                                                fetchpriority="low"
+                                                class="h-full w-full object-contain"
+                                            />
+                                        </div>
+                                    </CardHeader>
 
-                                <div
-                                    class="portfolio-progress-track mt-3 h-2 overflow-hidden rounded-full"
-                                >
-                                    <div
-                                        class="portfolio-progress-fill h-full rounded-full"
-                                        :style="{
-                                            width: progressWidth(item.mastery),
-                                        }"
-                                    />
-                                </div>
-                            </CardContent>
-                        </Card>
+                                    <CardContent class="mt-auto">
+                                        <div
+                                            class="flex items-end justify-between gap-4"
+                                        >
+                                            <CardTitle
+                                                class="portfolio-strong-text text-sm font-semibold tracking-[0.08em] uppercase"
+                                            >
+                                                {{ item.name }}
+                                            </CardTitle>
+                                            <span class="ui-chip">
+                                                {{ item.mastery }}
+                                            </span>
+                                        </div>
+
+                                        <div
+                                            class="portfolio-progress-track mt-3 h-2 overflow-hidden rounded-full"
+                                        >
+                                            <div
+                                                class="portfolio-progress-fill h-full rounded-full"
+                                                :style="{
+                                                    width: progressWidth(item.mastery),
+                                                }"
+                                            />
+                                        </div>
+                                    </CardContent>
+                                </Card>
+                            </div>
+                        </section>
                     </div>
-                </section>
-            </div>
-        </article>
+                </article>
+            </Transition>
+        </div>
     </PortfolioShell>
 </template>
